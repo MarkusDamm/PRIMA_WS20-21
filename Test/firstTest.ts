@@ -6,7 +6,6 @@ namespace ExampleSceneForest {
     let camera: ƒ.Node;
     let viewPort: ƒ.Viewport;
 
-
     function init(): void {
         ƒ.RenderManager.initialize();
         createForest();
