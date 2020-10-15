@@ -4,13 +4,39 @@ namespace L01 {
     import ƒ = FudgeCore;
 
     let viewPort: ƒ.Viewport;
-    let camera: ƒ.Node;
+    let cmpCamera: ƒ.ComponentCamera;
     let node: ƒ.Node;
-    
+
     window.addEventListener("DOMContentLoaded", init);
 
     function init(): void {
-        createViewport();
+        let cubeColor: ƒ.Color = new ƒ.Color(0.2, 0.7, 0.1);
+        node = createCube(cubeColor);
+
+        // care for viewport at the end of init
+        if (document.querySelector("canvas")) {
+            createViewport(document.querySelector("canvas"));
+        }
+        else createViewport();
+        viewPort.showSceneGraph();
+        viewPort.draw();
+    }
+
+    function createCube(_color: ƒ.Color): ƒ.Node {
+        let cube: ƒ.Node = new ƒ.Node("Cube");
+        let meshCube: ƒ.MeshCube = new ƒ.MeshCube("CubeMesh");
+        let cmpMeshCube: ƒ.ComponentMesh = new ƒ.ComponentMesh(meshCube);
+
+        let matCube: ƒ.Material = new ƒ.Material("CubeMat", ƒ.ShaderUniColor, new ƒ.CoatColored(_color));
+        let cmpMatCube: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(matCube);
+
+        let cmpTransform: ƒ.ComponentTransform = new ƒ.ComponentTransform();
+
+        cube.addComponent(cmpMeshCube);
+        cube.addComponent(cmpMatCube);
+        cube.addComponent(cmpTransform);
+
+        return cube;
     }
 
     function createViewport(_canvas: HTMLCanvasElement = null): void {
@@ -21,21 +47,13 @@ namespace L01 {
             document.body.appendChild(_canvas);
         }
         viewPort = new ƒ.Viewport();
-        camera = createCamera();
-        viewPort.initialize("viewport", node, camera.getComponent(ƒ.ComponentCamera), _canvas);
-    }
-    
-    function createCamera(_translation: ƒ.Vector3 = new ƒ.Vector3(1, 1, 10), _lookAt: ƒ.Vector3 = new ƒ.Vector3()): ƒ.Node {
-        let camera: ƒ.Node = new ƒ.Node("Camera");
-        let cmpTransform: ƒ.ComponentTransform = new ƒ.ComponentTransform();
-        cmpTransform.local.translate(_translation);
-        cmpTransform.local.lookAt(_lookAt);
-        camera.addComponent(cmpTransform);
+        cmpCamera = new ƒ.ComponentCamera();
+        
+        cmpCamera.pivot.translateZ(3);
+        cmpCamera.pivot.translateY(1.5);
+        cmpCamera.pivot.rotateY(180);
+        cmpCamera.pivot.rotateX(25);
 
-        let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
-        cmpCamera.projectCentral(1, 45, ƒ.FIELD_OF_VIEW.DIAGONAL);
-        camera.addComponent(cmpCamera);
-
-        return camera;
+        viewPort.initialize("viewport", node, cmpCamera, _canvas);
     }
 }
