@@ -10,7 +10,9 @@ namespace L01 {
     window.addEventListener("DOMContentLoaded", init);
 
     function init(): void {
-        let cubeColor: ƒ.Color = new ƒ.Color(0.2, 0.7, 0.1);
+        // X Rechts; Y Hoch, Z zu mir (rechtshändiges Koordinatensystem)
+        // Ein Kopf mit Nase bei positivem Z schaut mich bei Fudge an
+        let cubeColor: ƒ.Color = new ƒ.Color(0.2, 0.7, 0.1); 
         node = createCube(cubeColor);
 
         // care for viewport at the end of init
@@ -49,9 +51,9 @@ namespace L01 {
         viewPort = new ƒ.Viewport();
         cmpCamera = new ƒ.ComponentCamera();
         
-        cmpCamera.pivot.translateZ(3);
+        cmpCamera.pivot.translateZ(3); // Kamera zu mir bewegen; schaut auf mich und vom Ursprung weg
+        cmpCamera.pivot.rotateY(180); // Kamera zum Ursprung drehen
         cmpCamera.pivot.translateY(1.5);
-        cmpCamera.pivot.rotateY(180);
         cmpCamera.pivot.rotateX(25);
 
         viewPort.initialize("viewport", node, cmpCamera, _canvas);
