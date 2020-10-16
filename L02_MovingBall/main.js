@@ -43,6 +43,13 @@ var L02_Ball;
         let mulitplier = 0.003;
         let v3Translate = new ƒ.Vector3(xSpeed * mulitplier, ySpeed * mulitplier, 0);
         root.mtxLocal.translate(v3Translate);
+        // ƒ.Debug.log(root.mtxLocal.translation);     // Border at around 0.72;
+        if (root.mtxLocal.translation.x <= -0.72 || root.mtxLocal.translation.x >= 0.72) {
+            xInput.value = (Number(xInput.value) * -1).toString();
+        }
+        if (root.mtxLocal.translation.y <= -0.72 || root.mtxLocal.translation.y >= 0.72) {
+            yInput.value = (Number(yInput.value) * -1).toString();
+        }
         viewPort.draw();
     }
 })(L02_Ball || (L02_Ball = {}));
