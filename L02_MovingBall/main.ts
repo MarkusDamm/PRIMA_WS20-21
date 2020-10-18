@@ -6,6 +6,13 @@ namespace L02_Ball {
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
     let viewPort: ƒ.Viewport;
 
+    //#region Velocity-variables
+    let xInput: HTMLInputElement;
+    let xSpeed: number;
+    let yInput: HTMLInputElement;
+    let ySpeed: number;
+    //#endregion
+    
     function init(_event: Event): void {
         let cmpTransformRoot: ƒ.ComponentTransform = new ƒ.ComponentTransform();
         root.addComponent(cmpTransformRoot);
@@ -20,6 +27,12 @@ namespace L02_Ball {
         let colorCicle: ƒ.Color = ƒ.Color.CSS("green");
         let circle: ƒ.Node = createCircle(colorCicle);
         root.appendChild(circle);
+
+        xInput = document.querySelector("input#X");
+        xSpeed = Number(xInput.value);
+        yInput = document.querySelector("input#Y");
+        ySpeed = Number(yInput.value);
+        document.querySelector("div").addEventListener("input", hdlinput);
 
         ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, hdlUpdate);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 30);
@@ -45,13 +58,15 @@ namespace L02_Ball {
         return circle;
     }
 
+    function hdlinput(_event: Event): void {
+        // console.log("input");
+        xInput = document.querySelector("input#X");
+        xSpeed = Number(xInput.value);
+        yInput = document.querySelector("input#Y");
+        ySpeed = Number(yInput.value);
+    }
+
     function hdlUpdate(_event: Event): void {
-
-        let xInput: HTMLInputElement = document.querySelector("input#X");
-        let xSpeed: number = Number(xInput.value);
-        let yInput: HTMLInputElement = document.querySelector("input#Y");
-        let ySpeed: number = Number(yInput.value);
-
         let mulitplier: number = 0.003;
 
         let v3Translate: ƒ.Vector3 = new ƒ.Vector3(xSpeed * mulitplier, ySpeed * mulitplier, 0);
@@ -60,9 +75,11 @@ namespace L02_Ball {
 
         if (root.mtxLocal.translation.x <= -0.72 || root.mtxLocal.translation.x >= 0.72) {
             xInput.value = (Number(xInput.value) * -1).toString();
+            document.querySelector("div").dispatchEvent(new Event("input"));
         }
         if (root.mtxLocal.translation.y <= -0.72 || root.mtxLocal.translation.y >= 0.72) {
             yInput.value = (Number(yInput.value) * -1).toString();
+            document.querySelector("div").dispatchEvent(new Event("input"));
         }
 
         viewPort.draw();
