@@ -5,6 +5,7 @@ var L02_Ball;
     document.addEventListener("DOMContentLoaded", init);
     let root = new ƒ.Node("Root");
     let cmpCamera = new ƒ.ComponentCamera();
+    let cameraDistance = 2;
     let viewPort;
     //#region Velocity-variables
     let xInput;
@@ -16,7 +17,7 @@ var L02_Ball;
         let cmpTransformRoot = new ƒ.ComponentTransform();
         root.addComponent(cmpTransformRoot);
         let canvas = document.querySelector("canvas");
-        cmpCamera.pivot.translateZ(2);
+        cmpCamera.pivot.translateZ(cameraDistance);
         cmpCamera.pivot.rotateY(180);
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
@@ -28,8 +29,9 @@ var L02_Ball;
         yInput = document.querySelector("input#Y");
         ySpeed = Number(yInput.value);
         document.querySelector("div").addEventListener("input", hdlinput);
+        let fps = 30;
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hdlUpdate);
-        ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 30);
+        ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, fps);
         viewPort.draw();
     }
     function createCircle(_color) {
@@ -41,7 +43,7 @@ var L02_Ball;
         let cmpMatCircle = new ƒ.ComponentMaterial(matCircle);
         circle.addComponent(cmpMatCircle);
         let cmpTransCircle = new ƒ.ComponentTransform();
-        let v3ScaleCircle = new ƒ.Vector3(0.2, 0.2, 0.01);
+        let v3ScaleCircle = new ƒ.Vector3(0.2, 0.2, 0.001);
         cmpTransCircle.local.scale(v3ScaleCircle);
         circle.addComponent(cmpTransCircle);
         return circle;
@@ -57,12 +59,13 @@ var L02_Ball;
         let mulitplier = 0.003;
         let v3Translate = new ƒ.Vector3(xSpeed * mulitplier, ySpeed * mulitplier, 0);
         root.mtxLocal.translate(v3Translate);
-        // ƒ.Debug.log(root.mtxLocal.translation);     // Border at around 0.72;
-        if (root.mtxLocal.translation.x <= -0.72 || root.mtxLocal.translation.x >= 0.72) {
+        // ƒ.Debug.log(root.mtxLocal.translation);     // Border at around 0.52 for 1,5; 0.72 for 2; 1.145 for 3; 1.554 for 4; 1.974 for 5
+        let border = cameraDistance * (0.35 + (cameraDistance * 0.01));
+        if (root.mtxLocal.translation.x <= -border || root.mtxLocal.translation.x >= border) {
             xInput.value = (Number(xInput.value) * -1).toString();
             document.querySelector("div").dispatchEvent(new Event("input"));
         }
-        if (root.mtxLocal.translation.y <= -0.72 || root.mtxLocal.translation.y >= 0.72) {
+        if (root.mtxLocal.translation.y <= -border || root.mtxLocal.translation.y >= border) {
             yInput.value = (Number(yInput.value) * -1).toString();
             document.querySelector("div").dispatchEvent(new Event("input"));
         }
