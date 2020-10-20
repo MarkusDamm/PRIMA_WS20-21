@@ -26,7 +26,7 @@ namespace L02_Fudge {
         quad.addComponent(cmpMaterialQuad);
         root.addChild(quad);
 
-
+        //#region Torus
         let torus: ƒ.Node = new ƒ.Node("Torus");
         let meshTorus: ƒ.MeshTorus = new ƒ.MeshTorus("Torus", 1, 10, 3);
         let cmpMeshTorus: ƒ.ComponentMesh = new ƒ.ComponentMesh(meshTorus);
@@ -40,8 +40,8 @@ namespace L02_Fudge {
         let cmpMatTorus: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(matOrange);
         torus.addComponent(cmpMatTorus);
         root.appendChild(torus);
-
-
+        //#endregion
+        //#region Cube
         let cube: ƒ.Node = new ƒ.Node("Cube");
         let meshCube: ƒ.MeshCube = new ƒ.MeshCube();
         let cmpMeshCube: ƒ.ComponentMesh = new ƒ.ComponentMesh(meshCube);
@@ -51,7 +51,7 @@ namespace L02_Fudge {
         cmpMeshCube.pivot.scaleX(0.5);
         cmpMeshCube.pivot.scaleY(0.5);
         cmpMeshCube.pivot.rotateZ(-45);
-
+        //#endregion
         torus.addComponent(cmpMatTorus);
         cube.addComponent(cmpMeshCube);
         cube.addComponent(cmpMatCube);
@@ -69,13 +69,11 @@ namespace L02_Fudge {
         ƒ.Debug.log(viewport);
         
         viewport.draw();
-        ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 24);
+        ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 30);
     }
     
     function hndRotate(_event: MouseEvent): void {
-        // cmpCamera.pivot.rotateZ(10);
-        // viewport.draw();
-        ƒ.Time.game.setScale();
+        ƒ.Time.game.setScale(); // testing
     }
     
     function hndLoop(_event: Event): void {

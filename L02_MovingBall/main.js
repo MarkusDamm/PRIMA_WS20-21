@@ -28,7 +28,7 @@ var L02_Ball;
         xSpeed = Number(xInput.value);
         yInput = document.querySelector("input#Y");
         ySpeed = Number(yInput.value);
-        document.querySelector("div").addEventListener("input", hdlinput);
+        document.querySelector("div").addEventListener("input", hdlInput);
         let fps = 30;
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hdlUpdate);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, fps);
@@ -48,7 +48,7 @@ var L02_Ball;
         circle.addComponent(cmpTransCircle);
         return circle;
     }
-    function hdlinput(_event) {
+    function hdlInput(_event) {
         // console.log("input");
         xInput = document.querySelector("input#X");
         xSpeed = Number(xInput.value);
@@ -57,6 +57,7 @@ var L02_Ball;
     }
     function hdlUpdate(_event) {
         let mulitplier = 0.003;
+        // für ständig neue "Wegwerf-Vectoren" kann der Recycler von Fudge genutzt werden ƒ.Recycler
         let v3Translate = new ƒ.Vector3(xSpeed * mulitplier, ySpeed * mulitplier, 0);
         root.mtxLocal.translate(v3Translate);
         // ƒ.Debug.log(root.mtxLocal.translation);     // Border at around 0.52 for 1,5; 0.72 for 2; 1.145 for 3; 1.554 for 4; 1.974 for 5
