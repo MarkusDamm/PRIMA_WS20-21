@@ -130,7 +130,6 @@ namespace L03_BreakOut_Move {
         let rectPos: ƒ.Vector2 = new ƒ.Vector2(block.mtxLocal.translation.x - (_scale.x / 2), block.mtxLocal.translation.y - (_scale.y / 2));
         blockRect.position = rectPos;
         console.log(blockRect.height);
-        
 
         blocks.push(block);
         blocksRects.push(blockRect);
@@ -149,7 +148,8 @@ namespace L03_BreakOut_Move {
         let mulitplier: number = 2;
         ballRect.position = ball.mtxLocal.translation.toVector2();
         // console.log(ƒ.Time.game.getElapsedSincePreviousCall());
-        for (const blockRect of blocksRects) {
+
+        for (let blockRect of blocksRects) {
             if (ballRect.collides(blockRect)) {
                 console.log("Ball collides with Block!");
                 let intersection: ƒ.Rectangle = ballRect.getIntersection(blockRect);

@@ -122,7 +122,7 @@ var L03_BreakOut_Move;
         let mulitplier = 2;
         ballRect.position = ball.mtxLocal.translation.toVector2();
         // console.log(ƒ.Time.game.getElapsedSincePreviousCall());
-        for (const blockRect of blocksRects) {
+        for (let blockRect of blocksRects) {
             if (ballRect.collides(blockRect)) {
                 console.log("Ball collides with Block!");
                 let intersection = ballRect.getIntersection(blockRect);
