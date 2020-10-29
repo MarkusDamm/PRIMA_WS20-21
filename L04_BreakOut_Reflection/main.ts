@@ -4,11 +4,12 @@ namespace L04_BreakOut_Reflection {
     document.addEventListener("DOMContentLoaded", init);
 
     let root: ƒ.Node = new ƒ.Node("Root");
-    let ball: GameObject;
+    let ball: Ball;
+
+    let obstacles: ƒ.Node;
     let walls: ƒ.Node;
-    // let ballRect: ƒ.Rectangle;
-    let blocks: ƒ.Node[] = [];
-    let blocksRects: ƒ.Rectangle[] = [];
+    // let blocks: ƒ.Brick[] = [];
+    // let blocksRects: ƒ.Rectangle[] = [];
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
     let cameraDistance: number = 40;
@@ -32,50 +33,33 @@ namespace L04_BreakOut_Reflection {
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
 
-        let colorBall: ƒ.Color = ƒ.Color.CSS("green");
-        ball = createBall(colorBall);
+        // let colorBall: ƒ.Color = ƒ.Color.CSS("green");
+        ball = new Ball("Ball");
         root.appendChild(ball);
-
+        
+        obstacles = new ƒ.Node("Obstacles");
+        root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
         root.appendChild(walls);
+
+        // root.appendChild(walls);
         // 4 Blocks for the border needed
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
-
-        // let colorBorder: ƒ.Color = ƒ.Color.CSS("white");
-        // let borderPosition: ƒ.Vector3;
-        // let borderScale: ƒ.Vector3;
-        // for (let i: number = 0; i < 4; i++) {
-        //     switch (i) {
-        //         case 0:
-        //             borderPosition = new ƒ.Vector3(0, 14);
-        //             borderScale = new ƒ.Vector3(35, 1);
-        //             break;
-        //         case 1:
-        //             borderPosition = new ƒ.Vector3(17);
-        //             borderScale = new ƒ.Vector3(1, 28);
-        //             break;
-        //         case 2:
-        //             borderPosition = new ƒ.Vector3(0, -14);
-        //             borderScale = new ƒ.Vector3(35, 1);
-        //             break;
-        //         case 3:
-        //             borderPosition = new ƒ.Vector3(-17);
-        //             borderScale = new ƒ.Vector3(1, 28);
-        //     }
-
-        //     let borderBlock: ƒ.Node = createBlock(colorBorder, borderPosition, borderScale);
-        //     // console.log("border " + i + " at " + borderPosition + " with " + borderScale);
-
-        //     walls.appendChild(borderBlock);
-        // }
-
-        let colorBlock: ƒ.Color = ƒ.Color.CSS("orange");
-        let blockPosition: ƒ.Vector3 = new ƒ.Vector3(0, 10, 0);
-        let block: ƒ.Node = createBlock(colorBlock, blockPosition);
-        root.appendChild(block);
+        
+        // // let colorBlock: ƒ.Color = ƒ.Color.CSS("orange");
+        // let blockPosition: ƒ.Vector2 = new ƒ.Vector2(0, 10);
+        // let block: Brick = new Brick("Brick", blockPosition);
+        // obstacles.appendChild(block);
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(0, 10)));
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(10, 10)));
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-10, 10)));
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(6, 5)));
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-6, 5)));
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(14, 5)));
+        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-14, 5)));
 
         xInput = document.querySelector("input#X");
         xSpeed = Number(xInput.value);
@@ -88,53 +72,6 @@ namespace L04_BreakOut_Reflection {
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, fps);
 
         viewPort.draw();
-    }
-
-    function createBall(_color: ƒ.Color): GameObject {
-        let ball: GameObject = new GameObject("Ball");
-        // let meshBall: ƒ.MeshSphere = new ƒ.MeshSphere("MeshBall", 15, 15);
-        // let cmpMeshBall: ƒ.ComponentMesh = new ƒ.ComponentMesh(meshBall);
-        // ball.addComponent(cmpMeshBall);
-
-        // let matBall: ƒ.Material = new ƒ.Material("BallMat", ƒ.ShaderUniColor, new ƒ.CoatColored(_color));
-        // let cmpMatBall: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(matBall);
-        // ball.addComponent(cmpMatBall);
-
-        // let cmpTransBall: ƒ.ComponentTransform = new ƒ.ComponentTransform();
-        // let v3ScaleBall: ƒ.Vector3 = new ƒ.Vector3(1, 1, 1);
-        // cmpTransBall.local.scale(v3ScaleBall);
-        // ball.addComponent(cmpTransBall);
-
-        // ballRect = new ƒ.Rectangle();
-
-        return ball;
-    }
-
-    function createBlock(_color: ƒ.Color, _position?: ƒ.Vector3, _scale: ƒ.Vector3 = new ƒ.Vector3(3, 1, 1)): ƒ.Node {
-        let block: ƒ.Node = new ƒ.Node("Block");
-        let meshBlock: ƒ.MeshCube = new ƒ.MeshCube("MeshBlock");
-        let cmpMeshBlock: ƒ.ComponentMesh = new ƒ.ComponentMesh(meshBlock);
-        block.addComponent(cmpMeshBlock);
-
-        let matBlock: ƒ.Material = new ƒ.Material("BlockMat", ƒ.ShaderUniColor, new ƒ.CoatColored(_color));
-        let cmpMatBlock: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(matBlock);
-        block.addComponent(cmpMatBlock);
-
-        let cmpTransBlock: ƒ.ComponentTransform = new ƒ.ComponentTransform();
-        cmpTransBlock.local.scale(_scale);
-        if (_position) {
-            cmpTransBlock.local.translate(_position);
-        }
-        block.addComponent(cmpTransBlock);
-
-        let blockRect: ƒ.Rectangle = new ƒ.Rectangle(0, 0, _scale.x, _scale.y);
-        let rectPos: ƒ.Vector2 = new ƒ.Vector2(block.mtxLocal.translation.x - (_scale.x / 2), block.mtxLocal.translation.y - (_scale.y / 2));
-        blockRect.position = rectPos;
-        console.log(blockRect.height);
-
-        blocks.push(block);
-        blocksRects.push(blockRect);
-        return block;
     }
 
     function hdlInput(_event: Event): void {
@@ -154,7 +91,12 @@ namespace L04_BreakOut_Reflection {
         // Diese Bedingung ausklammern
         for (let wall of walls.getChildren()) {
             if (ball.rect.collides((<GameObject>wall).rect)) {
-                hdlCollision();
+                hdlCollision(walls);
+            }
+        }
+        for (let obstacle of obstacles.getChildren()) {
+            if (ball.rect.collides((<GameObject>obstacle).rect)) {
+                hdlCollision(obstacles);
             }
         }
 
@@ -168,11 +110,11 @@ namespace L04_BreakOut_Reflection {
         viewPort.draw();
     }
 
-    function hdlCollision(): void {
-        for (let wall of walls.getChildren()) {
-            if (ball.rect.collides((<GameObject>wall).rect)) {
+    function hdlCollision(_parentNode: ƒ.Node): void {
+        for (let obstacle of _parentNode.getChildren()) {
+            if (ball.rect.collides((<GameObject>obstacle).rect)) {
                 // console.log("Ball collides with Block!");
-                let intersection: ƒ.Rectangle = ball.rect.getIntersection((<GameObject>wall).rect);
+                let intersection: ƒ.Rectangle = ball.rect.getIntersection((<GameObject>obstacle).rect);
                 if (intersection.size.x > intersection.size.y) {
                     yInput.value = (Number(yInput.value) * -1).toString();
                     document.querySelector("div").dispatchEvent(new Event("input"));

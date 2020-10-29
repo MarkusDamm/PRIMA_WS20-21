@@ -17,8 +17,8 @@ namespace L04_BreakOut_Reflection {
             this.addComponent(cmpQuad);
             cmpQuad.pivot.scale(_size.toVector3(0));
 
-            let cmpMat: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(GameObject.mtrSolidWhite);
-            this.addComponent(cmpMat);
+            let cmpMtr: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(GameObject.mtrSolidWhite);
+            this.addComponent(cmpMtr);
         }
 
     }

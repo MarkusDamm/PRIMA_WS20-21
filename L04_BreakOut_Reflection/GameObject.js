@@ -10,8 +10,8 @@ var L04_BreakOut_Reflection;
             let cmpQuad = new ƒ.ComponentMesh(GameObject.meshQuad);
             this.addComponent(cmpQuad);
             cmpQuad.pivot.scale(_size.toVector3(0));
-            let cmpMat = new ƒ.ComponentMaterial(GameObject.mtrSolidWhite);
-            this.addComponent(cmpMat);
+            let cmpMtr = new ƒ.ComponentMaterial(GameObject.mtrSolidWhite);
+            this.addComponent(cmpMtr);
         }
     }
     GameObject.meshQuad = new ƒ.MeshQuad();
