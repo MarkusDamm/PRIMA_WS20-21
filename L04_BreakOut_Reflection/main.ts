@@ -33,7 +33,8 @@ namespace L04_BreakOut_Reflection {
 
         ball = new Ball("Ball");
         root.appendChild(ball);
-        
+        ball.setVelocity(new ƒ.Vector2());
+
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
@@ -44,14 +45,8 @@ namespace L04_BreakOut_Reflection {
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
-        
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(0, 10)));
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(10, 10)));
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-10, 10)));
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(6, 5)));
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-6, 5)));
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(14, 5)));
-        obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-14, 5)));
+
+        addBricks(24);
 
         xInput = document.querySelector("input#X");
         xSpeed = Number(xInput.value);
@@ -71,49 +66,61 @@ namespace L04_BreakOut_Reflection {
         xSpeed = Number(xInput.value);
         yInput = document.querySelector("input#Y");
         ySpeed = Number(yInput.value);
+
+        ball.setVelocity(new ƒ.Vector2(xSpeed, ySpeed));
     }
 
     function hdlUpdate(_event: Event): void {
-        let mulitplier: number = 2;
-        ball.rect.position = ball.mtxLocal.translation.toVector2();
-
-        // Code für Objektorientierung anpassen
-        // Class für Brick und Ball
-        // Diese Bedingung ausklammern
-        for (let wall of walls.getChildren()) {
-            if (ball.rect.collides((<GameObject>wall).rect)) {
-                hdlCollision(walls);
+        ball.update();
+        for (let wall of walls.getChildren() as Brick[]) {
+            if (ball.isColliding(wall)) {
+                hdlCollision(wall);
             }
         }
-        for (let obstacle of obstacles.getChildren()) {
-            if (ball.rect.collides((<GameObject>obstacle).rect)) {
-                hdlCollision(obstacles);
+        for (let obstacle of obstacles.getChildren() as Brick[]) {
+            if (ball.isColliding(obstacle)) {
+                hdlCollision(obstacle);
             }
         }
-
-        let frameTime: number = ƒ.Time.game.getElapsedSincePreviousCall() / 1000;
-
-        // für ständig neue "Wegwerf-Vectoren" kann der Recycler von Fudge genutzt werden ƒ.Recycler
-        let v3Velocity: ƒ.Vector3 = new ƒ.Vector3(xSpeed * mulitplier, ySpeed * mulitplier, 0);
-        v3Velocity.scale(frameTime);
-        ball.mtxLocal.translate(v3Velocity);
-
         viewPort.draw();
+
+        // Interaktive Plattform an der der Ball abprallen soll
+        // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
+        // Axis-Referenz anschauen
+        // Control-Referenz anschauen
+        ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ALT_LEFT, ƒ.KEYBOARD_CODE.ALT_RIGHT]);
+        // new ƒ.Axis("Horizontal");
     }
 
-    function hdlCollision(_parentNode: ƒ.Node): void {
-        for (let obstacle of _parentNode.getChildren()) {
-            if (ball.rect.collides((<GameObject>obstacle).rect)) {
-                let intersection: ƒ.Rectangle = ball.rect.getIntersection((<GameObject>obstacle).rect);
-                if (intersection.size.x > intersection.size.y) {
-                    yInput.value = (Number(yInput.value) * -1).toString();
-                    document.querySelector("div").dispatchEvent(new Event("input"));
-                }
-                else {
-                    xInput.value = (Number(xInput.value) * -1).toString();
-                    document.querySelector("div").dispatchEvent(new Event("input"));
-                }
+    function hdlCollision(_colliderGO: GameObject): void {
+        let intersection: ƒ.Rectangle = ball.rect.getIntersection(_colliderGO.rect);
+        if (intersection.size.x > intersection.size.y) {
+            yInput.value = (Number(yInput.value) * -1).toString();
+            document.querySelector("div").dispatchEvent(new Event("input"));
+        }
+        else {
+            xInput.value = (Number(xInput.value) * -1).toString();
+            document.querySelector("div").dispatchEvent(new Event("input"));
+        }
+
+        // if (_colliderGO typeof Brick) {
+        //     _colliderGO.processCollision();
+        //     _colliderGO.getParent().removeChild(_colliderGO);
+        // }
+    }
+
+    function addBricks(_amount: number): void {
+        let x: number = -14;
+        let y: number = 12;
+
+        for (let i: number = 0; i < _amount; i++) {
+            if (x > 14) {
+                x = -14;
+                y -= 2;
             }
+
+            obstacles.addChild(new Brick(`Brick${i}`, new ƒ.Vector2(x, y)));
+            x += 4;
         }
     }
 
