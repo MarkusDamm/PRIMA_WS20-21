@@ -7,8 +7,6 @@ var L04_BreakOut_Reflection;
     let ball;
     let obstacles;
     let walls;
-    // let blocks: ƒ.Brick[] = [];
-    // let blocksRects: ƒ.Rectangle[] = [];
     let cmpCamera = new ƒ.ComponentCamera();
     let cameraDistance = 40;
     let viewPort;
@@ -26,23 +24,17 @@ var L04_BreakOut_Reflection;
         cmpCamera.pivot.rotateY(180);
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
-        // let colorBall: ƒ.Color = ƒ.Color.CSS("green");
         ball = new L04_BreakOut_Reflection.Ball("Ball");
         root.appendChild(ball);
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
         root.appendChild(walls);
-        // root.appendChild(walls);
         // 4 Blocks for the border needed
         walls.appendChild(new L04_BreakOut_Reflection.GameObject("Wall", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new L04_BreakOut_Reflection.GameObject("Wall", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
         walls.appendChild(new L04_BreakOut_Reflection.GameObject("Wall", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new L04_BreakOut_Reflection.GameObject("Wall", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
-        // // let colorBlock: ƒ.Color = ƒ.Color.CSS("orange");
-        // let blockPosition: ƒ.Vector2 = new ƒ.Vector2(0, 10);
-        // let block: Brick = new Brick("Brick", blockPosition);
-        // obstacles.appendChild(block);
         obstacles.appendChild(new L04_BreakOut_Reflection.Brick("Brick", new ƒ.Vector2(0, 10)));
         obstacles.appendChild(new L04_BreakOut_Reflection.Brick("Brick", new ƒ.Vector2(10, 10)));
         obstacles.appendChild(new L04_BreakOut_Reflection.Brick("Brick", new ƒ.Vector2(-10, 10)));
@@ -61,7 +53,6 @@ var L04_BreakOut_Reflection;
         viewPort.draw();
     }
     function hdlInput(_event) {
-        // console.log("input");
         xInput = document.querySelector("input#X");
         xSpeed = Number(xInput.value);
         yInput = document.querySelector("input#Y");
@@ -93,7 +84,6 @@ var L04_BreakOut_Reflection;
     function hdlCollision(_parentNode) {
         for (let obstacle of _parentNode.getChildren()) {
             if (ball.rect.collides(obstacle.rect)) {
-                // console.log("Ball collides with Block!");
                 let intersection = ball.rect.getIntersection(obstacle.rect);
                 if (intersection.size.x > intersection.size.y) {
                     yInput.value = (Number(yInput.value) * -1).toString();

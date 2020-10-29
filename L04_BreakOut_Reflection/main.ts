@@ -8,8 +8,6 @@ namespace L04_BreakOut_Reflection {
 
     let obstacles: ƒ.Node;
     let walls: ƒ.Node;
-    // let blocks: ƒ.Brick[] = [];
-    // let blocksRects: ƒ.Rectangle[] = [];
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
     let cameraDistance: number = 40;
@@ -33,7 +31,6 @@ namespace L04_BreakOut_Reflection {
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
 
-        // let colorBall: ƒ.Color = ƒ.Color.CSS("green");
         ball = new Ball("Ball");
         root.appendChild(ball);
         
@@ -42,17 +39,12 @@ namespace L04_BreakOut_Reflection {
         walls = new ƒ.Node("Border");
         root.appendChild(walls);
 
-        // root.appendChild(walls);
         // 4 Blocks for the border needed
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
         
-        // // let colorBlock: ƒ.Color = ƒ.Color.CSS("orange");
-        // let blockPosition: ƒ.Vector2 = new ƒ.Vector2(0, 10);
-        // let block: Brick = new Brick("Brick", blockPosition);
-        // obstacles.appendChild(block);
         obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(0, 10)));
         obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(10, 10)));
         obstacles.appendChild(new Brick("Brick", new ƒ.Vector2(-10, 10)));
@@ -75,7 +67,6 @@ namespace L04_BreakOut_Reflection {
     }
 
     function hdlInput(_event: Event): void {
-        // console.log("input");
         xInput = document.querySelector("input#X");
         xSpeed = Number(xInput.value);
         yInput = document.querySelector("input#Y");
@@ -113,7 +104,6 @@ namespace L04_BreakOut_Reflection {
     function hdlCollision(_parentNode: ƒ.Node): void {
         for (let obstacle of _parentNode.getChildren()) {
             if (ball.rect.collides((<GameObject>obstacle).rect)) {
-                // console.log("Ball collides with Block!");
                 let intersection: ƒ.Rectangle = ball.rect.getIntersection((<GameObject>obstacle).rect);
                 if (intersection.size.x > intersection.size.y) {
                     yInput.value = (Number(yInput.value) * -1).toString();
