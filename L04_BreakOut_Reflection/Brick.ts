@@ -11,6 +11,8 @@ namespace L04_BreakOut_Reflection {
 
         public processCollision(): void {
             this.health--;
+            console.log(this.health);
+            
             if (this.health <= 0) {
                 this.destroy();
             }
@@ -18,7 +20,7 @@ namespace L04_BreakOut_Reflection {
 
         private destroy(): void {
             console.log("Destroy this");
-
+            this.getParent().removeChild(this);
         }
     }
 }

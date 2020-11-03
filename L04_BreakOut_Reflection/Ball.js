@@ -6,12 +6,12 @@ var L04_BreakOut_Reflection;
         constructor(_name) {
             super(_name);
             this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("ForestGreen");
+            this.setVelocity(new ƒ.Vector2());
         }
         setVelocity(_velocity) {
             this.velocity = ƒ.Vector2.SCALE(_velocity, 2);
         }
         update() {
-            // move 
             this.move();
         }
         isColliding(_target) {
@@ -21,17 +21,17 @@ var L04_BreakOut_Reflection;
             }
             return true;
         }
-        // public hdlCollision(_colliderGO: GameObject): void {
-        //     let intersection: ƒ.Rectangle = this.rect.getIntersection(_colliderGO.rect);
-        //     if (intersection.size.x > intersection.size.y) {
-        //         yInput.value = (Number(yInput.value) * -1).toString();
-        //         document.querySelector("div").dispatchEvent(new Event("input"));
-        //     }
-        //     else {
-        //         xInput.value = (Number(xInput.value) * -1).toString();
-        //         document.querySelector("div").dispatchEvent(new Event("input"));
-        //     }
-        // }
+        hdlCollision(_colliderGO) {
+            let intersection = this.rect.getIntersection(_colliderGO.rect);
+            if (intersection.size.x > intersection.size.y) {
+                this.velocity.y = this.velocity.y * -1;
+                document.querySelector("div").dispatchEvent(new Event("adjust"));
+            }
+            else {
+                this.velocity.x = this.velocity.x * -1;
+                document.querySelector("div").dispatchEvent(new Event("adjust"));
+            }
+        }
         move() {
             let frameTime = ƒ.Loop.timeFrameGame / 1000;
             let distance = ƒ.Vector2.SCALE(this.velocity, frameTime);

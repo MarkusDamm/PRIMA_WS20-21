@@ -15,9 +15,7 @@ namespace L04_BreakOut_Reflection {
 
     //#region Velocity-variables
     let xInput: HTMLInputElement;
-    let xSpeed: number;
     let yInput: HTMLInputElement;
-    let ySpeed: number;
     //#endregion
 
     function init(_event: Event): void {
@@ -33,7 +31,6 @@ namespace L04_BreakOut_Reflection {
 
         ball = new Ball("Ball");
         root.appendChild(ball);
-        ball.setVelocity(new ƒ.Vector2());
 
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
@@ -49,10 +46,9 @@ namespace L04_BreakOut_Reflection {
         addBricks(24);
 
         xInput = document.querySelector("input#X");
-        xSpeed = Number(xInput.value);
         yInput = document.querySelector("input#Y");
-        ySpeed = Number(yInput.value);
         document.querySelector("div").addEventListener("input", hdlInput);
+        document.querySelector("div").addEventListener("adjust", hdlAdjustment);
 
         let fps: number = 30;
         ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, hdlUpdate);
@@ -62,24 +58,25 @@ namespace L04_BreakOut_Reflection {
     }
 
     function hdlInput(_event: Event): void {
-        xInput = document.querySelector("input#X");
-        xSpeed = Number(xInput.value);
-        yInput = document.querySelector("input#Y");
-        ySpeed = Number(yInput.value);
+        ball.setVelocity(new ƒ.Vector2(Number(xInput.value), Number(yInput.value)));
+    }
 
-        ball.setVelocity(new ƒ.Vector2(xSpeed, ySpeed));
+    function hdlAdjustment(_event: Event): void {
+        xInput.value = (ball.velocity.x / 2).toString();
+        yInput.value = (ball.velocity.y / 2).toString();
     }
 
     function hdlUpdate(_event: Event): void {
         ball.update();
         for (let wall of walls.getChildren() as Brick[]) {
             if (ball.isColliding(wall)) {
-                hdlCollision(wall);
+                ball.hdlCollision(wall);
             }
         }
         for (let obstacle of obstacles.getChildren() as Brick[]) {
             if (ball.isColliding(obstacle)) {
-                hdlCollision(obstacle);
+                ball.hdlCollision(obstacle);
+                obstacle.processCollision();
             }
         }
         viewPort.draw();
@@ -88,25 +85,8 @@ namespace L04_BreakOut_Reflection {
         // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
         // Axis-Referenz anschauen
         // Control-Referenz anschauen
-        ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ALT_LEFT, ƒ.KEYBOARD_CODE.ALT_RIGHT]);
+        // console.log(ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT]));
         // new ƒ.Axis("Horizontal");
-    }
-
-    function hdlCollision(_colliderGO: GameObject): void {
-        let intersection: ƒ.Rectangle = ball.rect.getIntersection(_colliderGO.rect);
-        if (intersection.size.x > intersection.size.y) {
-            yInput.value = (Number(yInput.value) * -1).toString();
-            document.querySelector("div").dispatchEvent(new Event("input"));
-        }
-        else {
-            xInput.value = (Number(xInput.value) * -1).toString();
-            document.querySelector("div").dispatchEvent(new Event("input"));
-        }
-
-        // if (_colliderGO typeof Brick) {
-        //     _colliderGO.processCollision();
-        //     _colliderGO.getParent().removeChild(_colliderGO);
-        // }
     }
 
     function addBricks(_amount: number): void {

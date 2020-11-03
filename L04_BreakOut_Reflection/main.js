@@ -12,9 +12,7 @@ var L04_BreakOut_Reflection;
     let viewPort;
     //#region Velocity-variables
     let xInput;
-    let xSpeed;
     let yInput;
-    let ySpeed;
     //#endregion
     function init(_event) {
         let cmpTransformRoot = new ƒ.ComponentTransform();
@@ -26,7 +24,6 @@ var L04_BreakOut_Reflection;
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
         ball = new L04_BreakOut_Reflection.Ball("Ball");
         root.appendChild(ball);
-        ball.setVelocity(new ƒ.Vector2());
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
@@ -38,32 +35,32 @@ var L04_BreakOut_Reflection;
         walls.appendChild(new L04_BreakOut_Reflection.GameObject("Wall", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
         addBricks(24);
         xInput = document.querySelector("input#X");
-        xSpeed = Number(xInput.value);
         yInput = document.querySelector("input#Y");
-        ySpeed = Number(yInput.value);
         document.querySelector("div").addEventListener("input", hdlInput);
+        document.querySelector("div").addEventListener("adjust", hdlAdjustment);
         let fps = 30;
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hdlUpdate);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, fps);
         viewPort.draw();
     }
     function hdlInput(_event) {
-        xInput = document.querySelector("input#X");
-        xSpeed = Number(xInput.value);
-        yInput = document.querySelector("input#Y");
-        ySpeed = Number(yInput.value);
-        ball.setVelocity(new ƒ.Vector2(xSpeed, ySpeed));
+        ball.setVelocity(new ƒ.Vector2(Number(xInput.value), Number(yInput.value)));
+    }
+    function hdlAdjustment(_event) {
+        xInput.value = (ball.velocity.x / 2).toString();
+        yInput.value = (ball.velocity.y / 2).toString();
     }
     function hdlUpdate(_event) {
         ball.update();
         for (let wall of walls.getChildren()) {
             if (ball.isColliding(wall)) {
-                hdlCollision(wall);
+                ball.hdlCollision(wall);
             }
         }
         for (let obstacle of obstacles.getChildren()) {
             if (ball.isColliding(obstacle)) {
-                hdlCollision(obstacle);
+                ball.hdlCollision(obstacle);
+                obstacle.processCollision();
             }
         }
         viewPort.draw();
@@ -71,23 +68,8 @@ var L04_BreakOut_Reflection;
         // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
         // Axis-Referenz anschauen
         // Control-Referenz anschauen
-        ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ALT_LEFT, ƒ.KEYBOARD_CODE.ALT_RIGHT]);
+        // console.log(ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT]));
         // new ƒ.Axis("Horizontal");
-    }
-    function hdlCollision(_colliderGO) {
-        let intersection = ball.rect.getIntersection(_colliderGO.rect);
-        if (intersection.size.x > intersection.size.y) {
-            yInput.value = (Number(yInput.value) * -1).toString();
-            document.querySelector("div").dispatchEvent(new Event("input"));
-        }
-        else {
-            xInput.value = (Number(xInput.value) * -1).toString();
-            document.querySelector("div").dispatchEvent(new Event("input"));
-        }
-        // if (_colliderGO typeof Brick) {
-        //     _colliderGO.processCollision();
-        //     _colliderGO.getParent().removeChild(_colliderGO);
-        // }
     }
     function addBricks(_amount) {
         let x = -14;

@@ -8,6 +8,7 @@ namespace L04_BreakOut_Reflection {
         public constructor(_name: string) {
             super(_name);
             this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("ForestGreen");
+            this.setVelocity(new ƒ.Vector2());
         }
 
         public setVelocity(_velocity: ƒ.Vector2): void {
@@ -15,7 +16,6 @@ namespace L04_BreakOut_Reflection {
         }
 
         public update(): void {
-            // move 
             this.move();
         }
 
@@ -27,17 +27,17 @@ namespace L04_BreakOut_Reflection {
             return true;
         }
 
-        // public hdlCollision(_colliderGO: GameObject): void {
-        //     let intersection: ƒ.Rectangle = this.rect.getIntersection(_colliderGO.rect);
-        //     if (intersection.size.x > intersection.size.y) {
-        //         yInput.value = (Number(yInput.value) * -1).toString();
-        //         document.querySelector("div").dispatchEvent(new Event("input"));
-        //     }
-        //     else {
-        //         xInput.value = (Number(xInput.value) * -1).toString();
-        //         document.querySelector("div").dispatchEvent(new Event("input"));
-        //     }
-        // }
+        public hdlCollision(_colliderGO: GameObject): void {
+            let intersection: ƒ.Rectangle = this.rect.getIntersection(_colliderGO.rect);
+            if (intersection.size.x > intersection.size.y) {
+                this.velocity.y = this.velocity.y * -1;
+                document.querySelector("div").dispatchEvent(new Event("adjust"));
+            }
+            else {
+                this.velocity.x = this.velocity.x * -1;
+                document.querySelector("div").dispatchEvent(new Event("adjust"));
+            }            
+        }
 
         private move(): void {
             let frameTime: number = ƒ.Loop.timeFrameGame / 1000;
