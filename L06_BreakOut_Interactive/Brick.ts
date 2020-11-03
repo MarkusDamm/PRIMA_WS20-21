@@ -11,7 +11,6 @@ namespace L06_BreakOut_Interactive {
 
         public processCollision(): void {
             this.health--;
-            console.log(this.health);
             
             if (this.health <= 0) {
                 this.destroy();
@@ -19,7 +18,6 @@ namespace L06_BreakOut_Interactive {
         }
 
         private destroy(): void {
-            console.log("Destroy this");
             this.getParent().removeChild(this);
         }
     }

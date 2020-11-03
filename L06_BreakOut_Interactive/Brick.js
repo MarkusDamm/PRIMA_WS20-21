@@ -10,13 +10,11 @@ var L06_BreakOut_Interactive;
         }
         processCollision() {
             this.health--;
-            console.log(this.health);
             if (this.health <= 0) {
                 this.destroy();
             }
         }
         destroy() {
-            console.log("Destroy this");
             this.getParent().removeChild(this);
         }
     }

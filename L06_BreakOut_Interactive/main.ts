@@ -5,6 +5,7 @@ namespace L06_BreakOut_Interactive {
 
     let root: ƒ.Node = new ƒ.Node("Root");
     let ball: Ball;
+    let controller: Controller;
 
     let obstacles: ƒ.Node;
     let walls: ƒ.Node;
@@ -31,6 +32,9 @@ namespace L06_BreakOut_Interactive {
 
         ball = new Ball("Ball");
         root.appendChild(ball);
+
+        controller = new Controller("Controller", new ƒ.Vector2(0, -10));
+        root.appendChild(controller);
 
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
@@ -79,13 +83,25 @@ namespace L06_BreakOut_Interactive {
                 obstacle.processCollision();
             }
         }
+        if (ball.isColliding(controller)) {
+            ball.hdlCollision(controller);
+        }
         viewPort.draw();
 
         // Interaktive Plattform an der der Ball abprallen soll
         // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
         // Axis-Referenz anschauen
         // Control-Referenz anschauen
-        // console.log(ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT]));
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+                console.log("Move Left");
+                controller.setVelocity(Controller.MOVE_VECTOR_LEFT);
+            }
+            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+                controller.setVelocity(Controller.MOVE_VECTOR_RIGHT);
+            }
+            controller.update();
+        }
         // new ƒ.Axis("Horizontal");
     }
 
