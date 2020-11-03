@@ -1,6 +1,6 @@
 namespace L06_BreakOut_Interactive {
     import ƒ = FudgeCore;
-    export class Controller extends Moveable {
+    export class Paddle extends Moveable {
         public static readonly MOVE_VECTOR_RIGHT: ƒ.Vector2 = ƒ.Vector2.X(10);
         public static readonly MOVE_VECTOR_LEFT: ƒ.Vector2 = ƒ.Vector2.X(-10);
 
@@ -9,10 +9,9 @@ namespace L06_BreakOut_Interactive {
             this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("Orange");
         }
 
-        public setVelocity(_velocity: ƒ.Vector2 = Controller.MOVE_VECTOR_RIGHT): void {
+        public setVelocity(_velocity: ƒ.Vector2 = Paddle.MOVE_VECTOR_RIGHT): void {
             this.velocity = _velocity;
         }
-
 
     }
 }
