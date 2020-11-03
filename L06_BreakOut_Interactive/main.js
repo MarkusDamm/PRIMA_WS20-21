@@ -5,7 +5,7 @@ var L06_BreakOut_Interactive;
     document.addEventListener("DOMContentLoaded", init);
     let root = new ƒ.Node("Root");
     let ball;
-    let controller;
+    let paddle;
     let obstacles;
     let walls;
     let cmpCamera = new ƒ.ComponentCamera();
@@ -25,8 +25,8 @@ var L06_BreakOut_Interactive;
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
         ball = new L06_BreakOut_Interactive.Ball("Ball");
         root.appendChild(ball);
-        controller = new L06_BreakOut_Interactive.Controller("Controller", new ƒ.Vector2(0, -10));
-        root.appendChild(controller);
+        paddle = new L06_BreakOut_Interactive.Paddle("Controller", new ƒ.Vector2(0, -10));
+        root.appendChild(paddle);
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
@@ -66,25 +66,30 @@ var L06_BreakOut_Interactive;
                 obstacle.processCollision();
             }
         }
-        if (ball.isColliding(controller)) {
-            ball.hdlCollision(controller);
+        if (ball.isColliding(paddle)) {
+            ball.hdlCollision(paddle);
         }
         viewPort.draw();
         // Interaktive Plattform an der der Ball abprallen soll
         // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
         // Axis-Referenz anschauen
         // Control-Referenz anschauen
+        // mit Control kann ein Factor für die Stärke und 
+        // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
+        paddle.setVelocity(ƒ.Vector2.ZERO());
         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-                console.log("Move Left");
-                controller.setVelocity(L06_BreakOut_Interactive.Controller.MOVE_VECTOR_LEFT);
-            }
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-                controller.setVelocity(L06_BreakOut_Interactive.Controller.MOVE_VECTOR_RIGHT);
-            }
-            controller.update();
+            hdlKeyboardPress();
         }
+        paddle.update();
         // new ƒ.Axis("Horizontal");
+    }
+    function hdlKeyboardPress() {
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+            paddle.setVelocity(L06_BreakOut_Interactive.Paddle.MOVE_VECTOR_LEFT);
+        }
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+            paddle.setVelocity(L06_BreakOut_Interactive.Paddle.MOVE_VECTOR_RIGHT);
+        }
     }
     function addBricks(_amount) {
         let x = -14;

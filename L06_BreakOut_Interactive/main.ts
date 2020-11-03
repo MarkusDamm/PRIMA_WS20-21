@@ -5,7 +5,7 @@ namespace L06_BreakOut_Interactive {
 
     let root: ƒ.Node = new ƒ.Node("Root");
     let ball: Ball;
-    let controller: Controller;
+    let paddle: Paddle;
 
     let obstacles: ƒ.Node;
     let walls: ƒ.Node;
@@ -33,8 +33,8 @@ namespace L06_BreakOut_Interactive {
         ball = new Ball("Ball");
         root.appendChild(ball);
 
-        controller = new Controller("Controller", new ƒ.Vector2(0, -10));
-        root.appendChild(controller);
+        paddle = new Paddle("Controller", new ƒ.Vector2(0, -10));
+        root.appendChild(paddle);
 
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
@@ -83,8 +83,8 @@ namespace L06_BreakOut_Interactive {
                 obstacle.processCollision();
             }
         }
-        if (ball.isColliding(controller)) {
-            ball.hdlCollision(controller);
+        if (ball.isColliding(paddle)) {
+            ball.hdlCollision(paddle);
         }
         viewPort.draw();
 
@@ -92,17 +92,25 @@ namespace L06_BreakOut_Interactive {
         // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
         // Axis-Referenz anschauen
         // Control-Referenz anschauen
+
+        // mit Control kann ein Factor für die Stärke und 
+        // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
+
+        paddle.setVelocity(ƒ.Vector2.ZERO());
         if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-                console.log("Move Left");
-                controller.setVelocity(Controller.MOVE_VECTOR_LEFT);
-            }
-            if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-                controller.setVelocity(Controller.MOVE_VECTOR_RIGHT);
-            }
-            controller.update();
+            hdlKeyboardPress();
         }
+        paddle.update();
         // new ƒ.Axis("Horizontal");
+    }
+
+    function hdlKeyboardPress(): void {
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+            paddle.setVelocity(Paddle.MOVE_VECTOR_LEFT);
+        }
+        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+            paddle.setVelocity(Paddle.MOVE_VECTOR_RIGHT);
+        }
     }
 
     function addBricks(_amount: number): void {
