@@ -10,7 +10,6 @@ namespace L06_BreakOut_Interactive {
             this.move();
         }
 
-
         protected move(): void {
             let frameTime: number = ƒ.Loop.timeFrameGame / 1000;
             let distance: ƒ.Vector2 = ƒ.Vector2.SCALE(this.velocity, frameTime);
@@ -19,7 +18,6 @@ namespace L06_BreakOut_Interactive {
             this.rect.position = this.mtxLocal.translation.toVector2();
             this.rect.position.add(new ƒ.Vector2(this.rect.size.x / -2, this.rect.size.y / -2));
         }
-
 
     }
 }

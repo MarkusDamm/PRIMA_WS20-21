@@ -14,6 +14,9 @@ namespace L06_BreakOut_Interactive {
     let cameraDistance: number = 40;
     let viewPort: ƒ.Viewport;
 
+    let control: ƒ.Control = new ƒ.Control("PaddleControl", 1, ƒ.CONTROL_TYPE.PROPORTIONAL);
+    control.setDelay(100);
+
     //#region Velocity-variables
     let xInput: HTMLInputElement;
     let yInput: HTMLInputElement;
@@ -88,30 +91,39 @@ namespace L06_BreakOut_Interactive {
         }
         viewPort.draw();
 
-        // Interaktive Plattform an der der Ball abprallen soll
-        // mit ƒ.Keyboard.isPressedOne() oder mit horizontaler Achse
-        // Axis-Referenz anschauen
-        // Control-Referenz anschauen
+        // Bis Donnerstag etwas davon angehen:
+        // Schläger begrenzen und Spiel beenden, wenn der Ball unten rausfällt
+        // Punktezähler
+        // Abprallen des Balls je nach Status des Schlägers ändern
+        // Boni
+        // Farbveränderung bei den Bricks + mehr Leben
 
         // mit Control kann ein Factor für die Stärke und 
         // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
+        control.setInput(
+            ƒ.Keyboard.mapToValue(10, 0, [ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.D])
+            + ƒ.Keyboard.mapToValue(-10, 0, [ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.A])
+        );
+        // console.log(control.getOutput());
 
-        paddle.setVelocity(ƒ.Vector2.ZERO());
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-            hdlKeyboardPress();
-        }
+        paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
+
+        // paddle.setVelocity(ƒ.Vector2.ZERO());
+        // if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+        //     hdlKeyboardPress();
+        // }
         paddle.update();
         // new ƒ.Axis("Horizontal");
     }
 
-    function hdlKeyboardPress(): void {
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-            paddle.setVelocity(Paddle.MOVE_VECTOR_LEFT);
-        }
-        if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-            paddle.setVelocity(Paddle.MOVE_VECTOR_RIGHT);
-        }
-    }
+    // function hdlKeyboardPress(): void {
+    //     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
+    //         paddle.setVelocity(Paddle.MOVE_VECTOR_LEFT);
+    //     }
+    //     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
+    //         paddle.setVelocity(Paddle.MOVE_VECTOR_RIGHT);
+    //     }
+    // }
 
     function addBricks(_amount: number): void {
         let x: number = -14;
