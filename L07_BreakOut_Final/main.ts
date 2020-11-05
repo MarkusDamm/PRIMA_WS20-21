@@ -15,7 +15,7 @@ namespace L07_BreakOut_Final {
 
     let ball: Ball;
     let paddle: Paddle;
-    let powerUp: PowerUp;
+    let powerUps: ƒ.Node;
 
     let obstacles: ƒ.Node;
     let walls: ƒ.Node;
@@ -57,13 +57,15 @@ namespace L07_BreakOut_Final {
         walls = new ƒ.Node("Border");
         root.appendChild(walls);
 
-        powerUp = new PowerUp("PowerUp", ƒ.Vector2.X(5), ƒ.Vector2.ONE());
-        root.appendChild(walls);
+        powerUps = new ƒ.Node("PowerUps");
+        root.appendChild(powerUps);
+        let powerUp: PowerUp = new PowerUp("PowerUp", ƒ.Vector2.X(5), ƒ.Vector2.ONE());
+        powerUps.appendChild(powerUp);
 
         // 4 Blocks for the border needed
-        walls.appendChild(new GameObject("WallRight", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
+        walls.appendChild(new GameObject("WallRight", new ƒ.Vector2(17, -1), new ƒ.Vector2(1, 30)));
         walls.appendChild(new GameObject("WallUp", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
-        walls.appendChild(new GameObject("WallLeft", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
+        walls.appendChild(new GameObject("WallLeft", new ƒ.Vector2(-17, -1), new ƒ.Vector2(1, 30)));
         wallBottom = new GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1));
         wallBottom.removeComponent(wallBottom.getComponent(ƒ.ComponentMaterial));
         walls.appendChild(wallBottom);
@@ -99,6 +101,10 @@ namespace L07_BreakOut_Final {
         }
 
         ball.update();
+        for (let powerUp of powerUps.getChildren() as PowerUp[]) {
+            powerUp.update();
+        }
+
         for (let wall of walls.getChildren() as GameObject[]) {
             if (ball.isColliding(wall)) {
                 if (wall == wallBottom)
@@ -129,15 +135,24 @@ namespace L07_BreakOut_Final {
             paddle.isColliding(<GameObject>walls.getChildrenByName("WallRight")[0])) {
             paddle.mtxLocal.mutate(mttPosPaddle);
         }
+        if (powerUps.getChildren().length > 0) {
+            if (paddle.isColliding(<GameObject>powerUps.getChildren()[0])) {
+                paddle.increaseSize(ƒ.Vector2.X(2));
+                console.log("increase Paddle size");
 
-        // Bis Dienstag: 
-        // Doom-Texturen raussuchen
-        // altes Doom betrachten und Umsetzungsvorschläge skizzieren
-
-        // für den BreakOut-Rest noch möglich
-        // PowerUp weiter ausbauen (Siehe Jirka)
-        // ƒ.Timer nutzen, um ein Timer für PowerUps 
+                powerUps.removeChild(powerUps.getChildren()[0]);
+                // powerUp = null;
+            }
+        }
     }
+
+    // Bis Dienstag: 
+    // Doom-Texturen raussuchen
+    // altes Doom betrachten und Umsetzungsvorschläge skizzieren
+
+    // für den BreakOut-Rest noch möglich
+    // PowerUp weiter ausbauen (Siehe Jirka)
+    // ƒ.Timer nutzen, um ein Timer für PowerUps 
 
     function addBricks(_amount: number): void {
         let x: number = -14;

@@ -11,7 +11,12 @@ var L07_BreakOut_Final;
         setVelocity(_velocity) {
             this.velocity = _velocity;
         }
+        update() {
+            super.update();
+            // console.log(this.mtxLocal.translation);
+        }
     }
+    PowerUp.meshSphere = new ƒ.MeshSphere("PowerUp", 10, 5);
     L07_BreakOut_Final.PowerUp = PowerUp;
 })(L07_BreakOut_Final || (L07_BreakOut_Final = {}));
 //# sourceMappingURL=PowerUp.js.map
