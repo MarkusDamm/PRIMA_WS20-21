@@ -6,6 +6,7 @@ var L06_BreakOut_Interactive;
         constructor(_name, _position, _size = new ƒ.Vector2(3, 1)) {
             super(_name, _position, _size);
             this.health = 3;
+            this.reward = 5;
             this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("SteelBlue");
         }
         processCollision() {
@@ -18,6 +19,7 @@ var L06_BreakOut_Interactive;
                 this.destroy();
         }
         destroy() {
+            L06_BreakOut_Interactive.addPoints(this.reward);
             this.getParent().removeChild(this);
         }
     }

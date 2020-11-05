@@ -3,6 +3,7 @@ namespace L06_BreakOut_Interactive {
 
     export class Brick extends GameObject {
         private health: number = 3;
+        private reward: number = 5;
 
         public constructor(_name: string, _position: ƒ.Vector2, _size: ƒ.Vector2 = new ƒ.Vector2(3, 1)) {
             super(_name, _position, _size);
@@ -20,6 +21,7 @@ namespace L06_BreakOut_Interactive {
         }
 
         private destroy(): void {
+            addPoints(this.reward);
             this.getParent().removeChild(this);
         }
     }

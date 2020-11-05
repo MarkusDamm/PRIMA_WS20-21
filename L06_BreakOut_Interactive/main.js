@@ -4,6 +4,8 @@ var L06_BreakOut_Interactive;
     var ƒ = FudgeCore;
     document.addEventListener("DOMContentLoaded", init);
     let root = new ƒ.Node("Root");
+    let points = 0;
+    let counter;
     let ball;
     let paddle;
     let obstacles;
@@ -23,6 +25,7 @@ var L06_BreakOut_Interactive;
         let canvas = document.querySelector("canvas");
         cmpCamera.pivot.translateZ(cameraDistance);
         cmpCamera.pivot.rotateY(180);
+        counter = document.querySelector(".counter");
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
         ball = new L06_BreakOut_Interactive.Ball("Ball");
@@ -73,32 +76,21 @@ var L06_BreakOut_Interactive;
         }
         viewPort.draw();
         // Bis Donnerstag etwas davon angehen:
-        // Schläger begrenzen und Spiel beenden, wenn der Ball unten rausfällt
-        // Punktezähler
+        // Schläger begrenzen 
+        // Spiel beenden, wenn der Ball unten rausfällt
+        // Punktezähler ~
         // Abprallen des Balls je nach Status des Schlägers ändern
         // Boni
-        // Farbveränderung bei den Bricks + mehr Leben
+        // Farbveränderung bei den Bricks + mehr Leben ~
         // mit Control kann ein Factor für die Stärke und 
         // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
         control.setInput(ƒ.Keyboard.mapToValue(10, 0, [ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.D])
             + ƒ.Keyboard.mapToValue(-10, 0, [ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.A]));
         // console.log(control.getOutput());
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
-        // paddle.setVelocity(ƒ.Vector2.ZERO());
-        // if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-        //     hdlKeyboardPress();
-        // }
         paddle.update();
         // new ƒ.Axis("Horizontal");
     }
-    // function hdlKeyboardPress(): void {
-    //     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-    //         paddle.setVelocity(Paddle.MOVE_VECTOR_LEFT);
-    //     }
-    //     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-    //         paddle.setVelocity(Paddle.MOVE_VECTOR_RIGHT);
-    //     }
-    // }
     function addBricks(_amount) {
         let x = -14;
         let y = 12;
@@ -111,5 +103,10 @@ var L06_BreakOut_Interactive;
             x += 4;
         }
     }
+    function addPoints(_amount) {
+        points += _amount;
+        counter.innerText = points + " Points";
+    }
+    L06_BreakOut_Interactive.addPoints = addPoints;
 })(L06_BreakOut_Interactive || (L06_BreakOut_Interactive = {}));
 //# sourceMappingURL=main.js.map

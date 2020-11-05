@@ -4,6 +4,9 @@ namespace L06_BreakOut_Interactive {
     document.addEventListener("DOMContentLoaded", init);
 
     let root: ƒ.Node = new ƒ.Node("Root");
+    let points: number = 0;
+    let counter: HTMLElement;
+
     let ball: Ball;
     let paddle: Paddle;
 
@@ -29,6 +32,8 @@ namespace L06_BreakOut_Interactive {
         let canvas: HTMLCanvasElement = document.querySelector("canvas");
         cmpCamera.pivot.translateZ(cameraDistance);
         cmpCamera.pivot.rotateY(180);
+
+        counter = document.querySelector(".counter");
 
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
@@ -92,11 +97,12 @@ namespace L06_BreakOut_Interactive {
         viewPort.draw();
 
         // Bis Donnerstag etwas davon angehen:
-        // Schläger begrenzen und Spiel beenden, wenn der Ball unten rausfällt
-        // Punktezähler
+        // Schläger begrenzen 
+        // Spiel beenden, wenn der Ball unten rausfällt
+        // Punktezähler ~
         // Abprallen des Balls je nach Status des Schlägers ändern
         // Boni
-        // Farbveränderung bei den Bricks + mehr Leben
+        // Farbveränderung bei den Bricks + mehr Leben ~
 
         // mit Control kann ein Factor für die Stärke und 
         // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
@@ -108,22 +114,9 @@ namespace L06_BreakOut_Interactive {
 
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
 
-        // paddle.setVelocity(ƒ.Vector2.ZERO());
-        // if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-        //     hdlKeyboardPress();
-        // }
         paddle.update();
         // new ƒ.Axis("Horizontal");
     }
-
-    // function hdlKeyboardPress(): void {
-    //     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_LEFT])) {
-    //         paddle.setVelocity(Paddle.MOVE_VECTOR_LEFT);
-    //     }
-    //     if (ƒ.Keyboard.isPressedOne([ƒ.KEYBOARD_CODE.ARROW_RIGHT])) {
-    //         paddle.setVelocity(Paddle.MOVE_VECTOR_RIGHT);
-    //     }
-    // }
 
     function addBricks(_amount: number): void {
         let x: number = -14;
@@ -138,6 +131,11 @@ namespace L06_BreakOut_Interactive {
             obstacles.addChild(new Brick(`Brick${i}`, new ƒ.Vector2(x, y)));
             x += 4;
         }
+    }
+
+    export function addPoints(_amount: number): void {
+        points += _amount;
+        counter.innerText = points + " Points";
     }
 
 }
