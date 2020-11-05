@@ -12,14 +12,6 @@ namespace L06_BreakOut_Interactive {
             this.velocity = ƒ.Vector2.SCALE(_velocity, 2);
         }
 
-        public isColliding(_target: GameObject): boolean {
-            let intersection: ƒ.Rectangle = this.rect.getIntersection(_target.rect);
-            if (intersection == null) {
-                return false;
-            }
-            return true;
-        }
-
         public hdlCollision(_colliderGO: GameObject): void {
             let intersection: ƒ.Rectangle = this.rect.getIntersection(_colliderGO.rect);
             if (intersection.size.x > intersection.size.y) {

@@ -9,6 +9,14 @@ namespace L06_BreakOut_Interactive {
         public update(): void {
             this.move();
         }
+        
+        public isColliding(_target: GameObject): boolean {
+            let intersection: ƒ.Rectangle = this.rect.getIntersection(_target.rect);
+            if (intersection == null) {
+                return false;
+            }
+            return true;
+        }
 
         protected move(): void {
             let frameTime: number = ƒ.Loop.timeFrameGame / 1000;

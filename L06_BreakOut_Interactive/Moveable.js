@@ -10,6 +10,13 @@ var L06_BreakOut_Interactive;
         update() {
             this.move();
         }
+        isColliding(_target) {
+            let intersection = this.rect.getIntersection(_target.rect);
+            if (intersection == null) {
+                return false;
+            }
+            return true;
+        }
         move() {
             let frameTime = ƒ.Loop.timeFrameGame / 1000;
             let distance = ƒ.Vector2.SCALE(this.velocity, frameTime);

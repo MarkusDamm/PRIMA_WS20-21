@@ -10,13 +10,6 @@ var L06_BreakOut_Interactive;
         setVelocity(_velocity) {
             this.velocity = ƒ.Vector2.SCALE(_velocity, 2);
         }
-        isColliding(_target) {
-            let intersection = this.rect.getIntersection(_target.rect);
-            if (intersection == null) {
-                return false;
-            }
-            return true;
-        }
         hdlCollision(_colliderGO) {
             let intersection = this.rect.getIntersection(_colliderGO.rect);
             if (intersection.size.x > intersection.size.y) {

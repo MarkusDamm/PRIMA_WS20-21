@@ -50,10 +50,10 @@ namespace L06_BreakOut_Interactive {
         root.appendChild(walls);
 
         // 4 Blocks for the border needed
-        walls.appendChild(new GameObject("Wall", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
-        walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
-        walls.appendChild(new GameObject("Wall", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
-        walls.appendChild(new GameObject("Wall", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
+        walls.appendChild(new GameObject("WallRight", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
+        walls.appendChild(new GameObject("WallUp", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
+        walls.appendChild(new GameObject("WallLeft", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
+        walls.appendChild(new GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
 
         addBricks(24);
 
@@ -97,11 +97,11 @@ namespace L06_BreakOut_Interactive {
         viewPort.draw();
 
         // Bis Donnerstag etwas davon angehen:
-        // Schläger begrenzen 
+        // Schläger begrenzen L07
         // Spiel beenden, wenn der Ball unten rausfällt
-        // Punktezähler ~
         // Abprallen des Balls je nach Status des Schlägers ändern
-        // Boni
+        // Boni/ PowerUp
+        // Punktezähler ~
         // Farbveränderung bei den Bricks + mehr Leben ~
 
         // mit Control kann ein Factor für die Stärke und 
@@ -112,9 +112,14 @@ namespace L06_BreakOut_Interactive {
         );
         // console.log(control.getOutput());
 
+        let posPaddle: ƒ.Vector3 = paddle.mtxLocal.translation;
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
-
         paddle.update();
+        if (paddle.isColliding(<GameObject>walls.getChildrenByName("WallLeft")[0]) ||
+            paddle.isColliding(<GameObject>walls.getChildrenByName("WallRight")[0])) {
+            paddle.mtxLocal.translation = posPaddle;
+        }
+
         // new ƒ.Axis("Horizontal");
     }
 
