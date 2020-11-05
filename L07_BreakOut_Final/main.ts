@@ -1,4 +1,4 @@
-namespace L06_BreakOut_Interactive {
+namespace L07_BreakOut_Final {
     import ƒ = FudgeCore;
 
     enum GAMESTATE {
@@ -15,6 +15,7 @@ namespace L06_BreakOut_Interactive {
 
     let ball: Ball;
     let paddle: Paddle;
+    let powerUp: PowerUp;
 
     let obstacles: ƒ.Node;
     let walls: ƒ.Node;
@@ -54,6 +55,9 @@ namespace L06_BreakOut_Interactive {
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
+        root.appendChild(walls);
+
+        powerUp = new PowerUp("PowerUp", ƒ.Vector2.X(5), ƒ.Vector2.ONE());
         root.appendChild(walls);
 
         // 4 Blocks for the border needed
@@ -113,33 +117,26 @@ namespace L06_BreakOut_Interactive {
         }
         viewPort.draw();
 
-        // Bis Donnerstag etwas davon angehen:
-        // Abprallen des Balls je nach Status des Schlägers ändern
-        // Boni/ PowerUp
-        // Schläger begrenzen L07 ~
-        // Spiel beenden, wenn der Ball unten rausfällt ~
-        // Punktezähler ~   ƒ hat kein UI, dafür sollte HTML und CSS genutzt werden
-        // Farbveränderung bei den Bricks + mehr Leben ~
-
-        // mit Control kann ein Factor für die Stärke und 
-        // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
         control.setInput(
             ƒ.Keyboard.mapToValue(10, 0, [ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.D])
             + ƒ.Keyboard.mapToValue(-10, 0, [ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.A])
         );
-        // console.log(control.getOutput());
 
-        // let posPaddle: ƒ.Vector3 = paddle.mtxLocal.translation;
         let mttPosPaddle: ƒ.Mutator = paddle.mtxLocal.getMutator();
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
         paddle.update();
         if (paddle.isColliding(<GameObject>walls.getChildrenByName("WallLeft")[0]) ||
             paddle.isColliding(<GameObject>walls.getChildrenByName("WallRight")[0])) {
-            // paddle.mtxLocal.translation = posPaddle;
             paddle.mtxLocal.mutate(mttPosPaddle);
         }
 
-        // new ƒ.Axis("Horizontal");
+        // Bis Dienstag: 
+        // Doom-Texturen raussuchen
+        // altes Doom betrachten und Umsetzungsvorschläge skizzieren
+
+        // für den BreakOut-Rest noch möglich
+        // PowerUp weiter ausbauen (Siehe Jirka)
+        // ƒ.Timer nutzen, um ein Timer für PowerUps 
     }
 
     function addBricks(_amount: number): void {

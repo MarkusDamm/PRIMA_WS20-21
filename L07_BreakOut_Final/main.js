@@ -1,6 +1,6 @@
 "use strict";
-var L06_BreakOut_Interactive;
-(function (L06_BreakOut_Interactive) {
+var L07_BreakOut_Final;
+(function (L07_BreakOut_Final) {
     var ƒ = FudgeCore;
     let GAMESTATE;
     (function (GAMESTATE) {
@@ -14,6 +14,7 @@ var L06_BreakOut_Interactive;
     let gameState = GAMESTATE.PLAY;
     let ball;
     let paddle;
+    let powerUp;
     let obstacles;
     let walls;
     let wallBottom;
@@ -35,19 +36,21 @@ var L06_BreakOut_Interactive;
         counter = document.querySelector(".counter");
         viewPort = new ƒ.Viewport();
         viewPort.initialize("ViewPort", root, cmpCamera, canvas);
-        ball = new L06_BreakOut_Interactive.Ball("Ball");
+        ball = new L07_BreakOut_Final.Ball("Ball");
         root.appendChild(ball);
-        paddle = new L06_BreakOut_Interactive.Paddle("Controller", new ƒ.Vector2(0, -10));
+        paddle = new L07_BreakOut_Final.Paddle("Controller", new ƒ.Vector2(0, -10));
         root.appendChild(paddle);
         obstacles = new ƒ.Node("Obstacles");
         root.appendChild(obstacles);
         walls = new ƒ.Node("Border");
         root.appendChild(walls);
+        powerUp = new L07_BreakOut_Final.PowerUp("PowerUp", ƒ.Vector2.X(5), ƒ.Vector2.ONE());
+        root.appendChild(walls);
         // 4 Blocks for the border needed
-        walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallRight", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
-        walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallUp", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
-        walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallLeft", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
-        wallBottom = new L06_BreakOut_Interactive.GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1));
+        walls.appendChild(new L07_BreakOut_Final.GameObject("WallRight", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
+        walls.appendChild(new L07_BreakOut_Final.GameObject("WallUp", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
+        walls.appendChild(new L07_BreakOut_Final.GameObject("WallLeft", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
+        wallBottom = new L07_BreakOut_Final.GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1));
         wallBottom.removeComponent(wallBottom.getComponent(ƒ.ComponentMaterial));
         walls.appendChild(wallBottom);
         addBricks(24);
@@ -91,28 +94,21 @@ var L06_BreakOut_Interactive;
             ball.hdlCollision(paddle);
         }
         viewPort.draw();
-        // Bis Donnerstag etwas davon angehen:
-        // Abprallen des Balls je nach Status des Schlägers ändern
-        // Boni/ PowerUp
-        // Schläger begrenzen L07 ~
-        // Spiel beenden, wenn der Ball unten rausfällt ~
-        // Punktezähler ~   ƒ hat kein UI, dafür sollte HTML und CSS genutzt werden
-        // Farbveränderung bei den Bricks + mehr Leben ~
-        // mit Control kann ein Factor für die Stärke und 
-        // ein Delay für die Dauer bis die Endposition/ Endkraft erreicht ist
         control.setInput(ƒ.Keyboard.mapToValue(10, 0, [ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.D])
             + ƒ.Keyboard.mapToValue(-10, 0, [ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.A]));
-        // console.log(control.getOutput());
-        // let posPaddle: ƒ.Vector3 = paddle.mtxLocal.translation;
         let mttPosPaddle = paddle.mtxLocal.getMutator();
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
         paddle.update();
         if (paddle.isColliding(walls.getChildrenByName("WallLeft")[0]) ||
             paddle.isColliding(walls.getChildrenByName("WallRight")[0])) {
-            // paddle.mtxLocal.translation = posPaddle;
             paddle.mtxLocal.mutate(mttPosPaddle);
         }
-        // new ƒ.Axis("Horizontal");
+        // Bis Dienstag: 
+        // Doom-Texturen raussuchen
+        // altes Doom betrachten und Umsetzungsvorschläge skizzieren
+        // für den BreakOut-Rest noch möglich
+        // PowerUp weiter ausbauen (Siehe Jirka)
+        // ƒ.Timer nutzen, um ein Timer für PowerUps 
     }
     function addBricks(_amount) {
         let x = -14;
@@ -122,7 +118,7 @@ var L06_BreakOut_Interactive;
                 x = -14;
                 y -= 2;
             }
-            obstacles.addChild(new L06_BreakOut_Interactive.Brick(`Brick${i}`, new ƒ.Vector2(x, y)));
+            obstacles.addChild(new L07_BreakOut_Final.Brick(`Brick${i}`, new ƒ.Vector2(x, y)));
             x += 4;
         }
     }
@@ -130,6 +126,6 @@ var L06_BreakOut_Interactive;
         points += _amount;
         counter.innerText = points + " Points";
     }
-    L06_BreakOut_Interactive.addPoints = addPoints;
-})(L06_BreakOut_Interactive || (L06_BreakOut_Interactive = {}));
+    L07_BreakOut_Final.addPoints = addPoints;
+})(L07_BreakOut_Final || (L07_BreakOut_Final = {}));
 //# sourceMappingURL=main.js.map
