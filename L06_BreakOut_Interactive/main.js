@@ -2,14 +2,21 @@
 var L06_BreakOut_Interactive;
 (function (L06_BreakOut_Interactive) {
     var ƒ = FudgeCore;
+    let GAMESTATE;
+    (function (GAMESTATE) {
+        GAMESTATE[GAMESTATE["PLAY"] = 0] = "PLAY";
+        GAMESTATE[GAMESTATE["GAMEOVER"] = 1] = "GAMEOVER";
+    })(GAMESTATE || (GAMESTATE = {}));
     document.addEventListener("DOMContentLoaded", init);
     let root = new ƒ.Node("Root");
     let points = 0;
     let counter;
+    let gameState = GAMESTATE.PLAY;
     let ball;
     let paddle;
     let obstacles;
     let walls;
+    let wallBottom;
     let cmpCamera = new ƒ.ComponentCamera();
     let cameraDistance = 40;
     let viewPort;
@@ -40,7 +47,9 @@ var L06_BreakOut_Interactive;
         walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallRight", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallUp", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
         walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallLeft", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
-        walls.appendChild(new L06_BreakOut_Interactive.GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
+        wallBottom = new L06_BreakOut_Interactive.GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1));
+        wallBottom.removeComponent(wallBottom.getComponent(ƒ.ComponentMaterial));
+        walls.appendChild(wallBottom);
         addBricks(24);
         xInput = document.querySelector("input#X");
         yInput = document.querySelector("input#Y");
@@ -59,9 +68,16 @@ var L06_BreakOut_Interactive;
         yInput.value = (ball.velocity.y / 2).toString();
     }
     function hdlUpdate(_event) {
+        if (gameState == GAMESTATE.GAMEOVER) {
+            ƒ.Loop.removeEventListener("loopFrame" /* LOOP_FRAME */, hdlUpdate);
+            alert("Rip In Paddles");
+            return;
+        }
         ball.update();
         for (let wall of walls.getChildren()) {
             if (ball.isColliding(wall)) {
+                if (wall == wallBottom)
+                    gameState = GAMESTATE.GAMEOVER;
                 ball.hdlCollision(wall);
             }
         }
@@ -76,10 +92,10 @@ var L06_BreakOut_Interactive;
         }
         viewPort.draw();
         // Bis Donnerstag etwas davon angehen:
-        // Schläger begrenzen L07
-        // Spiel beenden, wenn der Ball unten rausfällt
         // Abprallen des Balls je nach Status des Schlägers ändern
         // Boni/ PowerUp
+        // Schläger begrenzen L07 ~
+        // Spiel beenden, wenn der Ball unten rausfällt ~
         // Punktezähler ~
         // Farbveränderung bei den Bricks + mehr Leben ~
         // mit Control kann ein Factor für die Stärke und 
@@ -87,12 +103,14 @@ var L06_BreakOut_Interactive;
         control.setInput(ƒ.Keyboard.mapToValue(10, 0, [ƒ.KEYBOARD_CODE.ARROW_RIGHT, ƒ.KEYBOARD_CODE.D])
             + ƒ.Keyboard.mapToValue(-10, 0, [ƒ.KEYBOARD_CODE.ARROW_LEFT, ƒ.KEYBOARD_CODE.A]));
         // console.log(control.getOutput());
-        let posPaddle = paddle.mtxLocal.translation;
+        // let posPaddle: ƒ.Vector3 = paddle.mtxLocal.translation;
+        let mttPosPaddle = paddle.mtxLocal.getMutator();
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
         paddle.update();
         if (paddle.isColliding(walls.getChildrenByName("WallLeft")[0]) ||
             paddle.isColliding(walls.getChildrenByName("WallRight")[0])) {
-            paddle.mtxLocal.translation = posPaddle;
+            // paddle.mtxLocal.translation = posPaddle;
+            paddle.mtxLocal.mutate(mttPosPaddle);
         }
         // new ƒ.Axis("Horizontal");
     }

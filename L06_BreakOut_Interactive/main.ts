@@ -1,17 +1,24 @@
 namespace L06_BreakOut_Interactive {
     import ƒ = FudgeCore;
 
+    enum GAMESTATE {
+        PLAY, GAMEOVER
+    }
+
     document.addEventListener("DOMContentLoaded", init);
 
     let root: ƒ.Node = new ƒ.Node("Root");
     let points: number = 0;
     let counter: HTMLElement;
 
+    let gameState: GAMESTATE = GAMESTATE.PLAY;
+
     let ball: Ball;
     let paddle: Paddle;
 
     let obstacles: ƒ.Node;
     let walls: ƒ.Node;
+    let wallBottom: GameObject;
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
     let cameraDistance: number = 40;
@@ -53,7 +60,9 @@ namespace L06_BreakOut_Interactive {
         walls.appendChild(new GameObject("WallRight", new ƒ.Vector2(17), new ƒ.Vector2(1, 28)));
         walls.appendChild(new GameObject("WallUp", new ƒ.Vector2(0, 14), new ƒ.Vector2(35, 1)));
         walls.appendChild(new GameObject("WallLeft", new ƒ.Vector2(-17), new ƒ.Vector2(1, 28)));
-        walls.appendChild(new GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1)));
+        wallBottom = new GameObject("WallDown", new ƒ.Vector2(0, -14), new ƒ.Vector2(35, 1));
+        wallBottom.removeComponent(wallBottom.getComponent(ƒ.ComponentMaterial));
+        walls.appendChild(wallBottom);
 
         addBricks(24);
 
@@ -79,9 +88,17 @@ namespace L06_BreakOut_Interactive {
     }
 
     function hdlUpdate(_event: Event): void {
+        if (gameState == GAMESTATE.GAMEOVER) {
+            ƒ.Loop.removeEventListener(ƒ.EVENT.LOOP_FRAME, hdlUpdate);
+            alert("Rip In Paddles");
+            return;
+        }
+
         ball.update();
-        for (let wall of walls.getChildren() as Brick[]) {
+        for (let wall of walls.getChildren() as GameObject[]) {
             if (ball.isColliding(wall)) {
+                if (wall == wallBottom)
+                    gameState = GAMESTATE.GAMEOVER;
                 ball.hdlCollision(wall);
             }
         }
@@ -97,10 +114,10 @@ namespace L06_BreakOut_Interactive {
         viewPort.draw();
 
         // Bis Donnerstag etwas davon angehen:
-        // Schläger begrenzen L07
-        // Spiel beenden, wenn der Ball unten rausfällt
         // Abprallen des Balls je nach Status des Schlägers ändern
         // Boni/ PowerUp
+        // Schläger begrenzen L07 ~
+        // Spiel beenden, wenn der Ball unten rausfällt ~
         // Punktezähler ~
         // Farbveränderung bei den Bricks + mehr Leben ~
 
@@ -112,12 +129,14 @@ namespace L06_BreakOut_Interactive {
         );
         // console.log(control.getOutput());
 
-        let posPaddle: ƒ.Vector3 = paddle.mtxLocal.translation;
+        // let posPaddle: ƒ.Vector3 = paddle.mtxLocal.translation;
+        let mttPosPaddle: ƒ.Mutator = paddle.mtxLocal.getMutator();
         paddle.setVelocity(ƒ.Vector2.X(Number((control.getOutput()).toFixed(3))));
         paddle.update();
         if (paddle.isColliding(<GameObject>walls.getChildrenByName("WallLeft")[0]) ||
             paddle.isColliding(<GameObject>walls.getChildrenByName("WallRight")[0])) {
-            paddle.mtxLocal.translation = posPaddle;
+            // paddle.mtxLocal.translation = posPaddle;
+            paddle.mtxLocal.mutate(mttPosPaddle);
         }
 
         // new ƒ.Axis("Horizontal");
