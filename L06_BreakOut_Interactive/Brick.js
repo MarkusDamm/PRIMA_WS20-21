@@ -5,14 +5,17 @@ var L06_BreakOut_Interactive;
     class Brick extends L06_BreakOut_Interactive.GameObject {
         constructor(_name, _position, _size = new ƒ.Vector2(3, 1)) {
             super(_name, _position, _size);
-            this.health = 1;
+            this.health = 3;
             this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("SteelBlue");
         }
         processCollision() {
             this.health--;
-            if (this.health <= 0) {
+            if (this.health == 2)
+                this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("GoldenRod");
+            else if (this.health == 1)
+                this.getComponent(ƒ.ComponentMaterial).clrPrimary = ƒ.Color.CSS("Maroon");
+            else if (this.health <= 0)
                 this.destroy();
-            }
         }
         destroy() {
             this.getParent().removeChild(this);
