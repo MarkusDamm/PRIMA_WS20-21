@@ -1,4 +1,4 @@
-namespace L09_Doom_Design {
+namespace L08_Doom_Design {
   import ƒ = FudgeCore;
   import ƒaid = FudgeAid;
 
