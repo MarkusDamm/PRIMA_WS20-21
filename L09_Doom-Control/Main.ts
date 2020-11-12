@@ -1,10 +1,10 @@
-namespace L08_Doom_Design {
+namespace L09_Doom_Control {
   import ƒ = FudgeCore;
   import ƒaid = FudgeAid;
 
   window.addEventListener("load", hndLoad);
 
-  export let viewport: ƒ.Viewport;
+  let viewport: ƒ.Viewport;
   let root: ƒ.Node;
 
   function hndLoad(_event: Event): void {

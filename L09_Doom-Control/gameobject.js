@@ -1,9 +1,8 @@
-namespace L09_Doom_Control {
-    import f = FudgeCore;
-
-    export class GameObject extends f.Node {
-        private static readonly MESH_QUAD: f.MeshQuad = new f.MeshQuad();
-
+"use strict";
+var L09_Doom_Control;
+(function (L09_Doom_Control) {
+    var f = FudgeCore;
+    class GameObject extends f.Node {
         /**
          * The constructor constructs a new GameObject. If the object should be moveable,
          * refer to Moveable
@@ -11,18 +10,18 @@ namespace L09_Doom_Control {
          * @param _position The fixed position of the GameObject
          * @param _size The initial size of the GameObject
          */
-        public constructor(_name: string, _position: f.Vector3, _size: f.Vector3, _material: f.Material) {
+        constructor(_name, _position, _size, _material) {
             super(_name);
-
             this.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(_position)));
             this.mtxLocal.rotateX(-90);
-
-            let cmpQuad: f.ComponentMesh = new f.ComponentMesh(GameObject.MESH_QUAD);
+            let cmpQuad = new f.ComponentMesh(GameObject.MESH_QUAD);
             this.addComponent(cmpQuad);
             cmpQuad.pivot.scale(_size);
-
-            let cmpMaterial: f.ComponentMaterial = new f.ComponentMaterial(_material);
+            let cmpMaterial = new f.ComponentMaterial(_material);
             this.addComponent(cmpMaterial);
         }
     }
-}
+    GameObject.MESH_QUAD = new f.MeshQuad();
+    L09_Doom_Control.GameObject = GameObject;
+})(L09_Doom_Control || (L09_Doom_Control = {}));
+//# sourceMappingURL=gameobject.js.map

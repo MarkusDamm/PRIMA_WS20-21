@@ -1,6 +1,6 @@
 "use strict";
-var L09_Doom_Design;
-(function (L09_Doom_Design) {
+var L08_Doom_Design;
+(function (L08_Doom_Design) {
     var ƒ = FudgeCore;
     var ƒaid = FudgeAid;
     window.addEventListener("load", hndLoad);
@@ -25,9 +25,9 @@ var L09_Doom_Design;
         cmpCamera.pivot.translate(ƒ.Vector3.ONE(7));
         cmpCamera.pivot.lookAt(ƒ.Vector3.ZERO());
         cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");
-        L09_Doom_Design.viewport = new ƒ.Viewport();
-        L09_Doom_Design.viewport.initialize("Viewport", root, cmpCamera, canvas);
-        L09_Doom_Design.viewport.draw();
+        L08_Doom_Design.viewport = new ƒ.Viewport();
+        L08_Doom_Design.viewport.initialize("Viewport", root, cmpCamera, canvas);
+        L08_Doom_Design.viewport.draw();
     }
-})(L09_Doom_Design || (L09_Doom_Design = {}));
+})(L08_Doom_Design || (L08_Doom_Design = {}));
 //# sourceMappingURL=Main.js.map
