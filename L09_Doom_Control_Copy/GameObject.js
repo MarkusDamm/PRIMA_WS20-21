@@ -1,6 +1,6 @@
 "use strict";
-var L09_Doom_Control;
-(function (L09_Doom_Control) {
+var L09_Doom_Control_Copy;
+(function (L09_Doom_Control_Copy) {
     var ƒ = FudgeCore;
     class GameObject extends ƒ.Node {
         constructor(_name, _size, _position, _rotation) {
@@ -13,6 +13,6 @@ var L09_Doom_Control;
         }
     }
     GameObject.meshQuad = new ƒ.MeshQuad();
-    L09_Doom_Control.GameObject = GameObject;
-})(L09_Doom_Control || (L09_Doom_Control = {}));
+    L09_Doom_Control_Copy.GameObject = GameObject;
+})(L09_Doom_Control_Copy || (L09_Doom_Control_Copy = {}));
 //# sourceMappingURL=GameObject.js.map

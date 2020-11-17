@@ -1,6 +1,6 @@
 "use strict";
-var L09_Doom_Control;
-(function (L09_Doom_Control) {
+var L09_Doom_Control_Copy;
+(function (L09_Doom_Control_Copy) {
     var ƒ = FudgeCore;
     var ƒaid = FudgeAid;
     window.addEventListener("load", hndLoad);
@@ -21,7 +21,7 @@ var L09_Doom_Control;
         root.appendChild(floor);
         let txtWall = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
         let mtrWall = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
-        let wall = new L09_Doom_Control.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(1.5), ƒ.Vector3.ZERO(), mtrWall);
+        let wall = new L09_Doom_Control_Copy.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(1.5), ƒ.Vector3.ZERO(), mtrWall);
         root.appendChild(wall);
         let cmpCamera = new ƒ.ComponentCamera();
         cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7));
@@ -31,8 +31,8 @@ var L09_Doom_Control;
         avatar.mtxLocal.translate(ƒ.Vector3.Z(15));
         avatar.mtxLocal.rotate(ƒ.Vector3.Y(180));
         root.appendChild(avatar);
-        L09_Doom_Control.viewport = new ƒ.Viewport();
-        L09_Doom_Control.viewport.initialize("Viewport", root, cmpCamera, canvas);
+        L09_Doom_Control_Copy.viewport = new ƒ.Viewport();
+        L09_Doom_Control_Copy.viewport.initialize("Viewport", root, cmpCamera, canvas);
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hndLoop);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
     }
@@ -43,7 +43,7 @@ var L09_Doom_Control;
             + ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]));
         avatar.mtxLocal.translateZ(ctrSpeed.getOutput());
         avatar.mtxLocal.rotateY(ctrRotation.getOutput());
-        L09_Doom_Control.viewport.draw();
+        L09_Doom_Control_Copy.viewport.draw();
     }
-})(L09_Doom_Control || (L09_Doom_Control = {}));
+})(L09_Doom_Control_Copy || (L09_Doom_Control_Copy = {}));
 //# sourceMappingURL=Main.js.map

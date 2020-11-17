@@ -1,6 +1,6 @@
 "use strict";
-var L09_Doom_Control;
-(function (L09_Doom_Control) {
+var L09_Doom_Control_Copy;
+(function (L09_Doom_Control_Copy) {
     class Avatar extends ƒ.Node {
         constructor() {
             super("Avatar");
@@ -10,6 +10,6 @@ var L09_Doom_Control;
             this.addComponent(cmpTransform);
         }
     }
-    L09_Doom_Control.Avatar = Avatar;
-})(L09_Doom_Control || (L09_Doom_Control = {}));
+    L09_Doom_Control_Copy.Avatar = Avatar;
+})(L09_Doom_Control_Copy || (L09_Doom_Control_Copy = {}));
 //# sourceMappingURL=Avatar.js.map
