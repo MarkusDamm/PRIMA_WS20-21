@@ -11,14 +11,7 @@ namespace L09_Doom_Control_Copy {
   function hndLoad(_event: Event): void {
     const canvas: HTMLCanvasElement = document.querySelector("canvas");
 
-    let meshQuad: ƒ.MeshQuad = new ƒ.MeshQuad("Quad");
-
-    let txtFloor: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/DEM1_5.png");
-    let mtrFloor: ƒ.Material = new ƒ.Material("Floor", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtFloor));
-    let floor: ƒaid.Node = new ƒaid.Node("Floor", ƒ.Matrix4x4.ROTATION_X(-90), mtrFloor, meshQuad);
-    floor.mtxLocal.scale(ƒ.Vector3.ONE(20));
-    floor.getComponent(ƒ.ComponentMaterial).pivot.scale(ƒ.Vector2.ONE(10));
-
+    let floor: ƒaid.Node = createFloor();
     root.appendChild(floor);
 
     let txtWall: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
@@ -35,6 +28,17 @@ namespace L09_Doom_Control_Copy {
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, hndLoop);
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
+  }
+
+  function createFloor(): ƒaid.Node {
+    let meshQuad: ƒ.MeshQuad = new ƒ.MeshQuad("Quad");
+
+    let txtFloor: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/DEM1_5.png");
+    let mtrFloor: ƒ.Material = new ƒ.Material("Floor", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtFloor));
+    let floor: ƒaid.Node = new ƒaid.Node("Floor", ƒ.Matrix4x4.ROTATION_X(-90), mtrFloor, meshQuad);
+    floor.mtxLocal.scale(ƒ.Vector3.ONE(20));
+    floor.getComponent(ƒ.ComponentMaterial).pivot.scale(ƒ.Vector2.ONE(10));
+    return floor;
   }
 
   function hndLoop(_event: Event): void {

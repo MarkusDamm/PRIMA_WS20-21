@@ -1,11 +1,10 @@
 namespace L09_Doom_Control_Copy {
     export class Avatar extends ƒ.Node {
-        private ctrSpeed: ƒ.Control = new ƒ.Control("AvatarSpeed", 1, ƒ.CONTROL_TYPE.PROPORTIONAL);
         private ctrRotation: ƒ.Control = new ƒ.Control("AvatarRotation", 3, ƒ.CONTROL_TYPE.PROPORTIONAL);
+        private ctrSpeed: ƒ.Control = new ƒ.Control("AvatarSpeed", 1, ƒ.CONTROL_TYPE.PROPORTIONAL);
 
         public constructor() {
             super("Avatar");
-
             let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
             cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7));
             cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");

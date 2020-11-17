@@ -4,8 +4,8 @@ var L09_Doom_Control_Copy;
     class Avatar extends ƒ.Node {
         constructor() {
             super("Avatar");
-            this.ctrSpeed = new ƒ.Control("AvatarSpeed", 1, 0 /* PROPORTIONAL */);
             this.ctrRotation = new ƒ.Control("AvatarRotation", 3, 0 /* PROPORTIONAL */);
+            this.ctrSpeed = new ƒ.Control("AvatarSpeed", 1, 0 /* PROPORTIONAL */);
             let cmpCamera = new ƒ.ComponentCamera();
             cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7));
             cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");
