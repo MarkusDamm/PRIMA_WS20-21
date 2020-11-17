@@ -20,6 +20,7 @@ var L09_Doom_Control_Copy;
         L09_Doom_Control_Copy.viewport.initialize("Viewport", root, avatar.getComponent(ƒ.ComponentCamera), canvas);
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hndLoop);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
+        canvas.addEventListener("mousemove", hndMouse);
     }
     function createFloor() {
         let meshQuad = new ƒ.MeshQuad("Quad");
@@ -33,6 +34,10 @@ var L09_Doom_Control_Copy;
     function hndLoop(_event) {
         avatar.update();
         L09_Doom_Control_Copy.viewport.draw();
+    }
+    function hndMouse(_event) {
+        console.log(_event.movementX, _event.movementY);
+        avatar.rotate(_event);
     }
 })(L09_Doom_Control_Copy || (L09_Doom_Control_Copy = {}));
 //# sourceMappingURL=Main.js.map

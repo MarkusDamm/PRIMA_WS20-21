@@ -28,6 +28,8 @@ namespace L09_Doom_Control_Copy {
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, hndLoop);
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
+
+    canvas.addEventListener("mousemove", hndMouse);
   }
 
   function createFloor(): ƒaid.Node {
@@ -44,5 +46,10 @@ namespace L09_Doom_Control_Copy {
   function hndLoop(_event: Event): void {
     avatar.update();
     viewport.draw();
+  }
+
+  function hndMouse(_event: MouseEvent): void {
+    console.log(_event.movementX, _event.movementY);
+    avatar.rotate(_event);
   }
 }
