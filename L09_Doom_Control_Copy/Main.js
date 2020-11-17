@@ -5,11 +5,7 @@ var L09_Doom_Control_Copy;
     var ƒaid = FudgeAid;
     window.addEventListener("load", hndLoad);
     let root = new ƒ.Node("Root");
-    let avatar = new ƒ.Node("Avatar");
-    let ctrSpeed = new ƒ.Control("AvatarSpeed", 1, 0 /* PROPORTIONAL */);
-    ctrSpeed.setDelay(100);
-    let ctrRotation = new ƒ.Control("AvatarRotation", 3, 0 /* PROPORTIONAL */);
-    ctrRotation.setDelay(50);
+    let avatar;
     function hndLoad(_event) {
         const canvas = document.querySelector("canvas");
         let meshQuad = new ƒ.MeshQuad("Quad");
@@ -23,26 +19,15 @@ var L09_Doom_Control_Copy;
         let mtrWall = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
         let wall = new L09_Doom_Control_Copy.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(1.5), ƒ.Vector3.ZERO(), mtrWall);
         root.appendChild(wall);
-        let cmpCamera = new ƒ.ComponentCamera();
-        cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7));
-        cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");
-        avatar.addComponent(cmpCamera);
-        avatar.addComponent(new ƒ.ComponentTransform());
-        avatar.mtxLocal.translate(ƒ.Vector3.Z(15));
-        avatar.mtxLocal.rotate(ƒ.Vector3.Y(180));
+        avatar = new L09_Doom_Control_Copy.Avatar();
         root.appendChild(avatar);
         L09_Doom_Control_Copy.viewport = new ƒ.Viewport();
-        L09_Doom_Control_Copy.viewport.initialize("Viewport", root, cmpCamera, canvas);
+        L09_Doom_Control_Copy.viewport.initialize("Viewport", root, avatar.getComponent(ƒ.ComponentCamera), canvas);
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hndLoop);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
     }
     function hndLoop(_event) {
-        ctrSpeed.setInput(ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])
-            + ƒ.Keyboard.mapToValue(1, 0, [ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP]));
-        ctrRotation.setInput(ƒ.Keyboard.mapToValue(1, 0, [ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])
-            + ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT]));
-        avatar.mtxLocal.translateZ(ctrSpeed.getOutput());
-        avatar.mtxLocal.rotateY(ctrRotation.getOutput());
+        avatar.update();
         L09_Doom_Control_Copy.viewport.draw();
     }
 })(L09_Doom_Control_Copy || (L09_Doom_Control_Copy = {}));
