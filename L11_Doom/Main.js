@@ -6,18 +6,17 @@ var L11_Doom;
     window.addEventListener("load", hndLoad);
     let root = new ƒ.Node("Root");
     let avatar;
+    let enemy;
     const sizeWall = 3;
     const numWalls = 20;
     function hndLoad(_event) {
         const canvas = document.querySelector("canvas");
         let floor = createFloor();
         root.appendChild(floor);
-        // let txtWall: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
-        // let mtrWall: ƒ.Material = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
         L11_Doom.walls = createWalls();
         root.appendChild(L11_Doom.walls);
-        // let wall: Wall = new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(1.5), ƒ.Vector3.ZERO(), mtrWall);
-        // root.appendChild(wall);
+        enemy = new L11_Doom.Enemy(new ƒ.Vector3(4, 2, -3));
+        root.appendChild(enemy);
         avatar = new L11_Doom.Avatar();
         root.appendChild(avatar);
         L11_Doom.viewport = new ƒ.Viewport();
@@ -38,6 +37,7 @@ var L11_Doom;
     }
     function hndLoop(_event) {
         avatar.update();
+        enemy.update(avatar.mtxLocal.translation);
         L11_Doom.viewport.draw();
     }
     function hndMouseMove(_event) {
@@ -48,8 +48,6 @@ var L11_Doom;
         let walls = new ƒ.Node("Walls");
         let txtWall = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
         let mtrWall = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
-        // let txtWall: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
-        // let mtrWall: ƒ.Material = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
         walls.appendChild(new L11_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(sizeWall / 2), ƒ.Vector3.ZERO(), mtrWall));
         walls.appendChild(new L11_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(120), mtrWall));
         walls.appendChild(new L11_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(-120), mtrWall));

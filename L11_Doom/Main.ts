@@ -7,6 +7,7 @@ namespace L11_Doom {
   export let viewport: ƒ.Viewport;
   let root: ƒ.Node = new ƒ.Node("Root");
   let avatar: Avatar;
+  let enemy: Enemy;
 
   export let walls: ƒ.Node;
   const sizeWall: number = 3;
@@ -18,13 +19,11 @@ namespace L11_Doom {
     let floor: ƒaid.Node = createFloor();
     root.appendChild(floor);
 
-    // let txtWall: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
-    // let mtrWall: ƒ.Material = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
-
     walls = createWalls();
     root.appendChild(walls);
-    // let wall: Wall = new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(1.5), ƒ.Vector3.ZERO(), mtrWall);
-    // root.appendChild(wall);
+
+    enemy = new Enemy(new ƒ.Vector3(4, 2, -3));
+    root.appendChild(enemy);
 
     avatar = new Avatar();
     root.appendChild(avatar);
@@ -52,6 +51,7 @@ namespace L11_Doom {
 
   function hndLoop(_event: Event): void {
     avatar.update();
+    enemy.update(avatar.mtxLocal.translation);
     viewport.draw();
   }
 
@@ -65,9 +65,6 @@ namespace L11_Doom {
 
     let txtWall: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
     let mtrWall: ƒ.Material = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
-
-    // let txtWall: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/CEMPOIS.png");
-    // let mtrWall: ƒ.Material = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(null, txtWall));
 
     walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(sizeWall / 2), ƒ.Vector3.ZERO(), mtrWall));
     walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(120), mtrWall));
