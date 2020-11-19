@@ -1,8 +1,8 @@
 namespace L09_Doom_Control_Copy {
     export class Avatar extends ƒ.Node {
         // private ctrRotation: ƒ.Control = new ƒ.Control("AvatarRotation", -0.3, ƒ.CONTROL_TYPE.PROPORTIONAL);
-        private ctrSideways: ƒ.Control = new ƒ.Control("AvatarRotation", 0.2, ƒ.CONTROL_TYPE.PROPORTIONAL);
-        private ctrForward: ƒ.Control = new ƒ.Control("AvatarSpeed", 0.2, ƒ.CONTROL_TYPE.PROPORTIONAL);
+        private ctrSideways: ƒ.Control = new ƒ.Control("AvatarRotation", 0.5, ƒ.CONTROL_TYPE.PROPORTIONAL);
+        private ctrForward: ƒ.Control = new ƒ.Control("AvatarSpeed", 0.5, ƒ.CONTROL_TYPE.PROPORTIONAL);
 
         public constructor() {
             super("Avatar");
@@ -24,11 +24,12 @@ namespace L09_Doom_Control_Copy {
         }
 
         public rotate(_event: MouseEvent): void {
-            // console.log(_event.movementX, _event.movementY);
-            this.mtxLocal.rotateY(_event.movementX * -0.3);
+            this.mtxLocal.rotateY(_event.movementX * -0.15);
         }
 
         private move(): void {
+            let posOld: ƒ.Vector3 = this.mtxLocal.translation;
+
             this.ctrForward.setInput(
                 ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.S, ƒ.KEYBOARD_CODE.ARROW_DOWN])
                 + ƒ.Keyboard.mapToValue(1, 0, [ƒ.KEYBOARD_CODE.W, ƒ.KEYBOARD_CODE.ARROW_UP])
@@ -37,13 +38,21 @@ namespace L09_Doom_Control_Copy {
                 ƒ.Keyboard.mapToValue(1, 0, [ƒ.KEYBOARD_CODE.A, ƒ.KEYBOARD_CODE.ARROW_LEFT])
                 + ƒ.Keyboard.mapToValue(-1, 0, [ƒ.KEYBOARD_CODE.D, ƒ.KEYBOARD_CODE.ARROW_RIGHT])
             );
-            // this.ctrRotation.setInput(
-
-            // );
 
             this.mtxLocal.translateZ(this.ctrForward.getOutput());
             this.mtxLocal.translateX(this.ctrSideways.getOutput());
             // this.mtxLocal.rotateY(this.ctrRotation.getOutput());
+
+            let bouncedOff: Wall[] = bounceOffWalls(<Wall[]>walls.getChildren());
+            if (bouncedOff.length < 2)
+                return;
+
+            bouncedOff = bounceOffWalls(bouncedOff);
+            if (bouncedOff.length == 0)
+                return;
+
+            console.log("Stuck!");
+            this.mtxLocal.translation = posOld;
         }
         // bis Donnerstag Rotation und weiteres movement verfeinert
         // schon an UI oder Gegner setzten?
