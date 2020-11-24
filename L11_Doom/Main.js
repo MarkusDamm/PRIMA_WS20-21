@@ -37,7 +37,7 @@ var L11_Doom;
     }
     function hndLoop(_event) {
         avatar.update();
-        enemy.update(avatar.mtxLocal.translation);
+        enemy.update(avatar.mtxWorld.translation);
         L11_Doom.viewport.draw();
     }
     function hndMouseMove(_event) {

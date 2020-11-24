@@ -51,7 +51,7 @@ namespace L11_Doom {
 
   function hndLoop(_event: Event): void {
     avatar.update();
-    enemy.update(avatar.mtxLocal.translation);
+    enemy.update(avatar.mtxWorld.translation);
     viewport.draw();
   }
 

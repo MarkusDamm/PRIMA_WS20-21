@@ -12,14 +12,11 @@ var L11_Doom;
         update(_avatarPosition) {
             this.mtxLocal.showTo(_avatarPosition, ƒ.Vector3.Y(), true);
             if (this.checkVision()) {
-                this.moveTowards(_avatarPosition, 1);
+                this.moveTowards(0.1);
             }
         }
-        moveTowards(_targetPosition, _speed) {
-            let distance = ƒ.Vector3.DIFFERENCE(_targetPosition, this.mtxWorld.translation);
-            distance.scale(_speed / 100); // Länge des Vectors begrenzen?
-            this.mtxLocal.translateX(distance.x);
-            this.mtxLocal.translateZ(distance.z);
+        moveTowards(_speed) {
+            this.mtxLocal.translateZ(_speed);
         }
         checkVision() {
             return true;

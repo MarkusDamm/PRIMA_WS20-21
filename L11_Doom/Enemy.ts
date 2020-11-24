@@ -18,23 +18,20 @@ namespace L11_Doom {
     public update(_avatarPosition: ƒ.Vector3): void {
       this.mtxLocal.showTo(_avatarPosition, ƒ.Vector3.Y(), true);
       if (this.checkVision()) {
-        this.moveTowards(_avatarPosition, 1);
+        this.moveTowards(0.1);
       }
     }
 
-    protected moveTowards(_targetPosition: ƒ.Vector3, _speed: number): void {
-      let distance: ƒ.Vector3 = ƒ.Vector3.DIFFERENCE(_targetPosition, this.mtxWorld.translation);
-      distance.scale(_speed / 100); // Länge des Vectors begrenzen?
-
-      this.mtxLocal.translateX(distance.x);
-      this.mtxLocal.translateZ(distance.z);
+    protected moveTowards(_speed: number): void {
+      this.mtxLocal.translateZ(_speed);
     }
 
     protected checkVision(): boolean {
+
       return true;
     }
 
     // bis Dienstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
-    // -> Ray zum Spieler, wenn der Ray eine Wand zw Figur und Spieler trifft, 
+    // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft, 
   }
 }
