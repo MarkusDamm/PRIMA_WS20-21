@@ -31,7 +31,8 @@ namespace L11_Doom {
       return true;
     }
 
-    // bis Dienstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
-    // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft, 
+    // bis Donnerstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
+    // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft
+    // Spritesheet vom Hare-Beispiel versuchen für den Gegner zu nutzen
   }
 }
