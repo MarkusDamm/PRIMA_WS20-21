@@ -3,13 +3,14 @@ var L11_Doom;
 (function (L11_Doom) {
     var ƒ = FudgeCore;
     class GameObject extends ƒ.Node {
+        // private static readonly meshQuad: ƒ.MeshQuad = new ƒ.MeshQuad();
         constructor(_name, _size, _position, _rotation) {
             super(_name);
             this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(_position)));
             this.mtxLocal.rotation = _rotation;
-            let cmpQuad = new ƒ.ComponentMesh(GameObject.meshQuad);
-            this.addComponent(cmpQuad);
-            cmpQuad.pivot.scale(_size.toVector3(1));
+            // let cmpQuad: ƒ.ComponentMesh = new ƒ.ComponentMesh(GameObject.meshQuad);
+            // this.addComponent(cmpQuad);
+            // cmpQuad.pivot.scale(_size.toVector3(1));
         }
         calculateBounce(_posWith, _radius = 1) {
             let normal = this.mtxWorld.getZ();
@@ -28,7 +29,6 @@ var L11_Doom;
             return ƒ.Vector3.SUM(intersect, normal);
         }
     }
-    GameObject.meshQuad = new ƒ.MeshQuad();
     L11_Doom.GameObject = GameObject;
 })(L11_Doom || (L11_Doom = {}));
 //# sourceMappingURL=GameObject.js.map
