@@ -10,8 +10,8 @@ namespace L14_Doom {
   let enemies: ƒ.Node;
 
   export let walls: ƒ.Node;
-  const sizeWall: number = 3;
-  const numWalls: number = 20;
+  export const sizeWall: number = 3;
+  export const numWalls: number = 20;
 
   const clrWhite: ƒ.Color = ƒ.Color.CSS("white");
 
@@ -69,6 +69,7 @@ namespace L14_Doom {
   function hndLoop(_event: Event): void {
     avatar.update();
     for (let enemy of enemies.getChildren() as Enemy[]) {
+      // enemy.update();
       enemy.update(avatar.mtxWorld.translation);
     }
     viewport.draw();

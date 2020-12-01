@@ -7,6 +7,10 @@ namespace L14_Doom {
     _000 = 0, _045 = 1, _090 = 2, _135 = 3, _180 = 4, _225 = 5, _270 = 6, _315 = 7
   }
 
+  export enum STATE {
+    IDLE, STOP, MOVE, ATTACK, DIE
+  }
+
   export class Enemy extends GameObject {
     protected static readonly TXT_ENEMY: ƒ.TextureImage = new ƒ.TextureImage("../DoomAssets/Cyberdemon01.png");
     protected static readonly SIZE: ƒ.Vector2 = ƒ.Vector2.ONE(2);
@@ -18,8 +22,11 @@ namespace L14_Doom {
     protected posTarget: ƒ.Vector3;
 
     protected health: number;
-    protected speed: number = 0.1;
+    protected speed: number = 2;
     protected angle: number;
+    protected angleView: number;
+
+    protected state: STATE = STATE.IDLE;
 
     constructor(_position: ƒ.Vector3) {
       super("Enemy", _position, ƒ.Vector3.ZERO());
@@ -34,13 +41,8 @@ namespace L14_Doom {
       this.sprite.setFrameDirection(1);
       this.sprite.framerate = 2;
 
-      this.posTarget = _position;
-
-      // let mtrEnemy: ƒ.Material = new ƒ.Material("Enemy", ƒ.ShaderTexture, new ƒ.CoatTextured(null, Enemy.TXT_ENEMY));
-      // let cmpMaterial: ƒ.ComponentMaterial = new ƒ.ComponentMaterial(mtrEnemy);
-      // cmpMaterial.pivot.scale(ƒ.Vector2.ONE(1));
-
-      // this.addComponent(cmpMaterial);
+      this.chooseTargetPosition();
+      this.changeState(STATE.MOVE);
     }
 
     public static generateSprites(_spritesheet: ƒ.CoatTextured): void {
@@ -54,21 +56,54 @@ namespace L14_Doom {
     }
 
     public update(_avatarPosition: ƒ.Vector3): void {
-      this.posTarget = _avatarPosition;
-      if (this.checkVision()) {
-        this.moveTowards();
-      }
-      this.show.mtxLocal.showTo(_avatarPosition, ƒ.Vector3.Y(), true);
-      // console.log(this.show.mtxLocal.rotation.y - this.mtxLocal.rotation.y);
+      this.show.mtxLocal.showTo(ƒ.Vector3.TRANSFORMATION(_avatarPosition, this.mtxWorldInverse, true), ƒ.Vector3.Y(), true);
       this.adjustSprites();
+
+      switch (this.state) {
+        case STATE.MOVE:
+          if (this.mtxLocal.translation.equals(this.posTarget, 0.1))
+            this.changeState(STATE.STOP);
+          else
+            this.move();
+          break;
+        case STATE.STOP:
+          this.changeState(STATE.IDLE);
+          setTimeout(this.changeState, 3000);
+          console.log("Stoped; change to idle, then to Move");
+          break;
+        case STATE.IDLE:
+        default:
+          break;
+        case STATE.ATTACK:
+          // attack
+          break;
+        case STATE.DIE:
+          // change animation to dying
+          break;
+      }
+
+      // this.posTarget = _avatarPosition;
+      // if (this.checkVision()) {
+      //   this.move();
+      // }
+      // console.log(this.show.mtxLocal.rotation.y - this.mtxLocal.rotation.y);
 
       // this.angle = calculateAngle(this.mtxLocal.rotation, this.show.mtxLocal.rotation);
     }
 
+    protected changeState = (_state: STATE = STATE.MOVE): void => {
+      this.state = _state;
+      console.log("change State to " + _state);
 
-    protected moveTowards(): void {
-      // this.mtxLocal.showTo(this.posTarget, ƒ.Vector3.Y(), true);
-      // this.mtxLocal.translateZ(this.speed);
+      if (_state == STATE.MOVE) {
+        this.chooseTargetPosition();
+      }
+    }
+
+
+    protected move(): void {
+      this.mtxLocal.showTo(this.posTarget, ƒ.Vector3.Y(), true);
+      this.mtxLocal.translateZ(this.speed * ƒ.Loop.timeFrameGame / 1000);
     }
 
     protected checkVision(): boolean {
@@ -78,7 +113,7 @@ namespace L14_Doom {
 
     protected adjustSprites(): void {
       let angle: number = this.show.mtxLocal.rotation.y;
-      console.log(angle);
+      // console.log(angle);
 
       if (-22 < angle && angle < 22)
         this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_000"]);
@@ -102,10 +137,46 @@ namespace L14_Doom {
 
     }
 
-    // bis Dienstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
+    protected displayAnimation(): void {
+      // this.show.mtxLocal.showTo(ƒ.Vector3.TRANSFORMATION(avatar.mtxLocal.translation, this.mtxWorldInverse, true));
+
+      let rotation: number = this.show.mtxLocal.rotation.y;
+      rotation = (rotation + 360 + 22.5) % 360;
+      rotation = Math.floor(rotation / 45);
+
+      if (this.angleView == rotation)
+        return;
+
+      this.angleView = rotation;
+
+      if (rotation > 4) {
+        rotation = 8 - rotation;
+        this.flip(true);
+      }
+      else
+        this.flip(false);
+
+      let section: string = ANGLE[rotation]; // .padStart(3, "0");
+      console.log(section);
+      this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle" + section]);
+    }
+
+    protected flip(_reverse: boolean): void {
+      this.sprite.mtxLocal.rotation = ƒ.Vector3.Y(_reverse ? 180 : 0);
+    }
+
+    protected chooseTargetPosition(): void {
+      let range: number = sizeWall * numWalls / 2 - 2;
+      this.posTarget = new ƒ.Vector3(ƒ.Random.default.getRange(-range, range), 0, ƒ.Random.default.getRange(-range, range));
+    }
+
+
+    // bis Donnerstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
     // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft
     // Spritesheet vom Hare-Beispiel versuchen für den Gegner zu nutzen
     // Winkel des Gegners berechnen => daraus die richtigen Sprites ableiten und verwenden
+    // einen weiteren State hinzufügen und ausfertigen -> Veränderungen beachten
+    // Interface vorbereiten (HTML-Overlay für die meisten Elemente?) Sprite fürs Doom-Guy-Gesicht
 
     // 17.12. Besprechung der Spielkonzepte
   }

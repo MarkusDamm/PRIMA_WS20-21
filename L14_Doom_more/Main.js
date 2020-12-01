@@ -7,8 +7,8 @@ var L14_Doom;
     let root = new ƒ.Node("Root");
     let avatar;
     let enemies;
-    const sizeWall = 3;
-    const numWalls = 20;
+    L14_Doom.sizeWall = 3;
+    L14_Doom.numWalls = 20;
     const clrWhite = ƒ.Color.CSS("white");
     async function hndLoad(_event) {
         const canvas = document.querySelector("canvas");
@@ -43,13 +43,14 @@ var L14_Doom;
         let txtFloor = new ƒ.TextureImage("../DoomAssets/DEM1_5.png");
         let mtrFloor = new ƒ.Material("Floor", ƒ.ShaderTexture, new ƒ.CoatTextured(clrWhite, txtFloor));
         let floor = new ƒaid.Node("Floor", ƒ.Matrix4x4.ROTATION_X(-90), mtrFloor, meshQuad);
-        floor.mtxLocal.scale(ƒ.Vector3.ONE(sizeWall * numWalls));
-        floor.getComponent(ƒ.ComponentMaterial).pivot.scale(ƒ.Vector2.ONE(numWalls));
+        floor.mtxLocal.scale(ƒ.Vector3.ONE(L14_Doom.sizeWall * L14_Doom.numWalls));
+        floor.getComponent(ƒ.ComponentMaterial).pivot.scale(ƒ.Vector2.ONE(L14_Doom.numWalls));
         return floor;
     }
     function hndLoop(_event) {
         avatar.update();
         for (let enemy of enemies.getChildren()) {
+            // enemy.update();
             enemy.update(avatar.mtxWorld.translation);
         }
         L14_Doom.viewport.draw();
@@ -65,14 +66,14 @@ var L14_Doom;
         // walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(sizeWall / 2), ƒ.Vector3.ZERO(), mtrWall));
         // walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(120), mtrWall));
         // walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(-120), mtrWall));
-        for (let i = -numWalls / 2 + 0.5; i < numWalls / 2; i++) {
-            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-numWalls / 2, 0.5, i), sizeWall), ƒ.Vector3.Y(90), mtrWall));
+        for (let i = -L14_Doom.numWalls / 2 + 0.5; i < L14_Doom.numWalls / 2; i++) {
+            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-L14_Doom.numWalls / 2, 0.5, i), L14_Doom.sizeWall), ƒ.Vector3.Y(90), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
-            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(numWalls / 2, 0.5, i), sizeWall), ƒ.Vector3.Y(-90), mtrWall));
+            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(L14_Doom.numWalls / 2, 0.5, i), L14_Doom.sizeWall), ƒ.Vector3.Y(-90), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
-            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, -numWalls / 2), sizeWall), ƒ.Vector3.Y(0), mtrWall));
+            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, -L14_Doom.numWalls / 2), L14_Doom.sizeWall), ƒ.Vector3.Y(0), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
-            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, numWalls / 2), sizeWall), ƒ.Vector3.Y(180), mtrWall));
+            walls.appendChild(new L14_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, L14_Doom.numWalls / 2), L14_Doom.sizeWall), ƒ.Vector3.Y(180), mtrWall));
         }
         return walls;
     }
