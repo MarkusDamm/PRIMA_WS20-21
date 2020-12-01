@@ -35,7 +35,7 @@ var L11_Doom;
         let coatSprite = new ƒ.CoatTextured(clrWhite, txtEnemy);
         L11_Doom.Enemy.generateSprites(coatSprite);
         enemies.appendChild(new L11_Doom.Enemy(new ƒ.Vector3(4, 0, -3)));
-        // enemies.appendChild(new Enemy(new ƒ.Vector3(-4, 0, -3)));
+        enemies.appendChild(new L11_Doom.Enemy(new ƒ.Vector3(-4, 0, -3)));
         return enemies;
     }
     function createFloor() {

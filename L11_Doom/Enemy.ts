@@ -48,7 +48,7 @@ namespace L11_Doom {
       for (let angle: number = 0; angle < 8; angle++) {
         let name: string = "Idle" + ANGLE[angle];
         let sprite: ƒAid.SpriteSheetAnimation = new ƒAid.SpriteSheetAnimation(name, _spritesheet);
-        sprite.generateByGrid(ƒ.Rectangle.GET(44 * (angle + 1), 33, 82, 108), 4, 32, ƒ.ORIGIN2D.BOTTOMCENTER, ƒ.Vector2.Y(143));
+        sprite.generateByGrid(ƒ.Rectangle.GET(44 + angle * 160, 33, 82, 108), 4, 32, ƒ.ORIGIN2D.BOTTOMCENTER, ƒ.Vector2.Y(143));
         Enemy.animations[name] = sprite;
       }
     }
@@ -77,7 +77,7 @@ namespace L11_Doom {
     }
 
     protected adjustSprites(): void {
-      let angle: number = Number((this.show.mtxLocal.rotation.y - this.mtxLocal.rotation.y).toFixed(0));
+      let angle: number = this.show.mtxLocal.rotation.y;
       console.log(angle);
 
       if (-22 < angle && angle < 22)
@@ -106,6 +106,8 @@ namespace L11_Doom {
     // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft
     // Spritesheet vom Hare-Beispiel versuchen für den Gegner zu nutzen
     // Winkel des Gegners berechnen => daraus die richtigen Sprites ableiten und verwenden
+
+    // 17.12. Besprechung der Spielkonzepte
   }
 
 }

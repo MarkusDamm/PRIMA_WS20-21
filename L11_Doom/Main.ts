@@ -50,7 +50,7 @@ namespace L11_Doom {
     Enemy.generateSprites(coatSprite);
 
     enemies.appendChild(new Enemy(new ƒ.Vector3(4, 0, -3)));
-    // enemies.appendChild(new Enemy(new ƒ.Vector3(-4, 0, -3)));
+    enemies.appendChild(new Enemy(new ƒ.Vector3(-4, 0, -3)));
 
     return enemies;
   }
