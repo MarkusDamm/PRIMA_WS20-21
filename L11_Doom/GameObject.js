@@ -4,9 +4,10 @@ var L11_Doom;
     var ƒ = FudgeCore;
     class GameObject extends ƒ.Node {
         // private static readonly meshQuad: ƒ.MeshQuad = new ƒ.MeshQuad();
-        constructor(_name, _size, _position, _rotation) {
+        constructor(_name, _position, _rotation) {
             super(_name);
-            this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(_position)));
+            this.addComponent(new ƒ.ComponentTransform());
+            this.mtxLocal.translation = _position;
             this.mtxLocal.rotation = _rotation;
             // let cmpQuad: ƒ.ComponentMesh = new ƒ.ComponentMesh(GameObject.meshQuad);
             // this.addComponent(cmpQuad);
