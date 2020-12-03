@@ -27,10 +27,11 @@ var L14_Doom;
         constructor(_position) {
             super("Enemy", _position, ƒ.Vector3.ZERO());
             this.speed = 2;
+            this.angleView = 0;
             this.state = STATE.IDLE;
             this.changeState = (_state = STATE.MOVE) => {
                 this.state = _state;
-                console.log("change State to " + _state);
+                // console.log("change State to " + _state);
                 if (_state == STATE.MOVE) {
                     this.chooseTargetPosition();
                 }
@@ -38,6 +39,7 @@ var L14_Doom;
             this.show = new ƒAid.Node("Show", ƒ.Matrix4x4.IDENTITY());
             this.appendChild(this.show);
             this.sprite = new ƒAid.NodeSprite("Sprite");
+            this.sprite.addComponent(new ƒ.ComponentTransform());
             this.show.appendChild(this.sprite);
             this.sprite.setAnimation(Enemy.animations["Idle_000"]);
             this.sprite.setFrameDirection(1);
@@ -50,7 +52,7 @@ var L14_Doom;
             for (let angle = 0; angle < 8; angle++) {
                 let name = "Idle" + ANGLE[angle];
                 let sprite = new ƒAid.SpriteSheetAnimation(name, _spritesheet);
-                sprite.generateByGrid(ƒ.Rectangle.GET(44 + angle * 160, 33, 82, 108), 4, 32, ƒ.ORIGIN2D.BOTTOMCENTER, ƒ.Vector2.Y(143));
+                sprite.generateByGrid(ƒ.Rectangle.GET(44 + angle * 130, 33, 82, 108), 4, 32, ƒ.ORIGIN2D.BOTTOMCENTER, ƒ.Vector2.Y(143));
                 Enemy.animations[name] = sprite;
             }
         }
@@ -67,7 +69,7 @@ var L14_Doom;
                 case STATE.STOP:
                     this.changeState(STATE.IDLE);
                     setTimeout(this.changeState, 3000);
-                    console.log("Stoped; change to idle, then to Move");
+                    // console.log("Stoped; change to idle, then to Move");
                     break;
                 case STATE.IDLE:
                 default:
@@ -79,12 +81,6 @@ var L14_Doom;
                     // change animation to dying
                     break;
             }
-            // this.posTarget = _avatarPosition;
-            // if (this.checkVision()) {
-            //   this.move();
-            // }
-            // console.log(this.show.mtxLocal.rotation.y - this.mtxLocal.rotation.y);
-            // this.angle = calculateAngle(this.mtxLocal.rotation, this.show.mtxLocal.rotation);
         }
         move() {
             this.mtxLocal.showTo(this.posTarget, ƒ.Vector3.Y(), true);
@@ -94,29 +90,6 @@ var L14_Doom;
             return true;
         }
         adjustSprites() {
-            let angle = this.show.mtxLocal.rotation.y;
-            // console.log(angle);
-            if (-22 < angle && angle < 22)
-                this.sprite.setAnimation(Enemy.animations["Idle_000"]);
-            else if (angle < 67)
-                this.sprite.setAnimation(Enemy.animations["Idle_045"]);
-            else if (angle < 112)
-                this.sprite.setAnimation(Enemy.animations["Idle_090"]);
-            else if (angle < 157)
-                this.sprite.setAnimation(Enemy.animations["Idle_135"]);
-            else if (angle < 180 || angle < -157)
-                this.sprite.setAnimation(Enemy.animations["Idle_180"]);
-            else if (angle < -112)
-                this.sprite.setAnimation(Enemy.animations["Idle_225"]);
-            else if (angle < -67)
-                this.sprite.setAnimation(Enemy.animations["Idle_270"]);
-            else if (angle < -22)
-                this.sprite.setAnimation(Enemy.animations["Idle_315"]);
-            // this.sprite.setFrameDirection(1);
-            // this.sprite.framerate = 2;
-        }
-        displayAnimation() {
-            // this.show.mtxLocal.showTo(ƒ.Vector3.TRANSFORMATION(avatar.mtxLocal.translation, this.mtxWorldInverse, true));
             let rotation = this.show.mtxLocal.rotation.y;
             rotation = (rotation + 360 + 22.5) % 360;
             rotation = Math.floor(rotation / 45);

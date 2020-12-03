@@ -24,7 +24,7 @@ namespace L14_Doom {
     protected health: number;
     protected speed: number = 2;
     protected angle: number;
-    protected angleView: number;
+    protected angleView: number = 0;
 
     protected state: STATE = STATE.IDLE;
 
@@ -35,6 +35,7 @@ namespace L14_Doom {
       this.appendChild(this.show);
 
       this.sprite = new ƒAid.NodeSprite("Sprite");
+      this.sprite.addComponent(new ƒ.ComponentTransform());
       this.show.appendChild(this.sprite);
 
       this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_000"]);
@@ -50,7 +51,7 @@ namespace L14_Doom {
       for (let angle: number = 0; angle < 8; angle++) {
         let name: string = "Idle" + ANGLE[angle];
         let sprite: ƒAid.SpriteSheetAnimation = new ƒAid.SpriteSheetAnimation(name, _spritesheet);
-        sprite.generateByGrid(ƒ.Rectangle.GET(44 + angle * 160, 33, 82, 108), 4, 32, ƒ.ORIGIN2D.BOTTOMCENTER, ƒ.Vector2.Y(143));
+        sprite.generateByGrid(ƒ.Rectangle.GET(44 + angle * 130, 33, 82, 108), 4, 32, ƒ.ORIGIN2D.BOTTOMCENTER, ƒ.Vector2.Y(143));
         Enemy.animations[name] = sprite;
       }
     }
@@ -69,7 +70,7 @@ namespace L14_Doom {
         case STATE.STOP:
           this.changeState(STATE.IDLE);
           setTimeout(this.changeState, 3000);
-          console.log("Stoped; change to idle, then to Move");
+          // console.log("Stoped; change to idle, then to Move");
           break;
         case STATE.IDLE:
         default:
@@ -81,19 +82,11 @@ namespace L14_Doom {
           // change animation to dying
           break;
       }
-
-      // this.posTarget = _avatarPosition;
-      // if (this.checkVision()) {
-      //   this.move();
-      // }
-      // console.log(this.show.mtxLocal.rotation.y - this.mtxLocal.rotation.y);
-
-      // this.angle = calculateAngle(this.mtxLocal.rotation, this.show.mtxLocal.rotation);
     }
 
     protected changeState = (_state: STATE = STATE.MOVE): void => {
       this.state = _state;
-      console.log("change State to " + _state);
+      // console.log("change State to " + _state);
 
       if (_state == STATE.MOVE) {
         this.chooseTargetPosition();
@@ -112,34 +105,6 @@ namespace L14_Doom {
     }
 
     protected adjustSprites(): void {
-      let angle: number = this.show.mtxLocal.rotation.y;
-      // console.log(angle);
-
-      if (-22 < angle && angle < 22)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_000"]);
-      else if (angle < 67)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_045"]);
-      else if (angle < 112)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_090"]);
-      else if (angle < 157)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_135"]);
-      else if (angle < 180 || angle < -157)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_180"]);
-      else if (angle < -112)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_225"]);
-      else if (angle < -67)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_270"]);
-      else if (angle < -22)
-        this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle_315"]);
-
-      // this.sprite.setFrameDirection(1);
-      // this.sprite.framerate = 2;
-
-    }
-
-    protected displayAnimation(): void {
-      // this.show.mtxLocal.showTo(ƒ.Vector3.TRANSFORMATION(avatar.mtxLocal.translation, this.mtxWorldInverse, true));
-
       let rotation: number = this.show.mtxLocal.rotation.y;
       rotation = (rotation + 360 + 22.5) % 360;
       rotation = Math.floor(rotation / 45);
@@ -159,6 +124,7 @@ namespace L14_Doom {
       let section: string = ANGLE[rotation]; // .padStart(3, "0");
       console.log(section);
       this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle" + section]);
+
     }
 
     protected flip(_reverse: boolean): void {
@@ -173,9 +139,6 @@ namespace L14_Doom {
 
     // bis Donnerstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
     // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft
-    // Spritesheet vom Hare-Beispiel versuchen für den Gegner zu nutzen
-    // Winkel des Gegners berechnen => daraus die richtigen Sprites ableiten und verwenden
-    // einen weiteren State hinzufügen und ausfertigen -> Veränderungen beachten
     // Interface vorbereiten (HTML-Overlay für die meisten Elemente?) Sprite fürs Doom-Guy-Gesicht
 
     // 17.12. Besprechung der Spielkonzepte
