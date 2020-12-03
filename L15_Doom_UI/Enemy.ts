@@ -1,4 +1,4 @@
-namespace L15_Doom {
+namespace L15_Doom_UI {
   import ƒ = FudgeCore;
   import ƒAid = FudgeAid;
 
@@ -134,9 +134,9 @@ namespace L15_Doom {
       this.posTarget = new ƒ.Vector3(ƒ.Random.default.getRange(-range, range), 0, ƒ.Random.default.getRange(-range, range));
     }
 
-    // bis Donnerstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
+    // bis Dienstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
     // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft
-    // Interface vorbereiten (HTML-Overlay für die meisten Elemente?) Sprite fürs Doom-Guy-Gesicht
+    // UI einbinden und flexibel/ veränderbar machen
 
     // 17.12. Besprechung der Spielkonzepte
   }

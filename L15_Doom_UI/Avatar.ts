@@ -1,4 +1,4 @@
-namespace L15_Doom {
+namespace L15_Doom_UI {
     export class Avatar extends ƒ.Node {
         // private ctrRotation: ƒ.Control = new ƒ.Control("AvatarRotation", -0.3, ƒ.CONTROL_TYPE.PROPORTIONAL);
         private ctrSideways: ƒ.Control = new ƒ.Control("AvatarRotation", 0.5, ƒ.CONTROL_TYPE.PROPORTIONAL);

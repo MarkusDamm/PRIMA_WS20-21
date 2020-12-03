@@ -1,28 +1,28 @@
 "use strict";
-var L15_Doom;
-(function (L15_Doom) {
+var L15_Doom_UI;
+(function (L15_Doom_UI) {
     var ƒ = FudgeCore;
     var ƒaid = FudgeAid;
     window.addEventListener("load", hndLoad);
     let root = new ƒ.Node("Root");
     let avatar;
     let enemies;
-    L15_Doom.sizeWall = 3;
-    L15_Doom.numWalls = 20;
+    L15_Doom_UI.sizeWall = 3;
+    L15_Doom_UI.numWalls = 20;
     const clrWhite = ƒ.Color.CSS("white");
     async function hndLoad(_event) {
         const canvas = document.querySelector("canvas");
         let floor = createFloor();
         root.appendChild(floor);
-        L15_Doom.walls = createWalls();
-        root.appendChild(L15_Doom.walls);
+        L15_Doom_UI.walls = createWalls();
+        root.appendChild(L15_Doom_UI.walls);
         enemies = await createEnemies();
         root.appendChild(enemies);
-        avatar = new L15_Doom.Avatar();
+        avatar = new L15_Doom_UI.Avatar();
         root.appendChild(avatar);
-        L15_Doom.viewport = new ƒ.Viewport();
-        L15_Doom.viewport.initialize("Viewport", root, avatar.getComponent(ƒ.ComponentCamera), canvas);
-        L15_Doom.viewport.draw();
+        L15_Doom_UI.viewport = new ƒ.Viewport();
+        L15_Doom_UI.viewport.initialize("Viewport", root, avatar.getComponent(ƒ.ComponentCamera), canvas);
+        L15_Doom_UI.viewport.draw();
         ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, hndLoop);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
         canvas.addEventListener("mousemove", hndMouseMove);
@@ -33,9 +33,9 @@ var L15_Doom;
         let txtEnemy = new ƒ.TextureImage();
         await txtEnemy.load("../DoomAssets/Cyberdemon_transparent.png");
         let coatSprite = new ƒ.CoatTextured(clrWhite, txtEnemy);
-        L15_Doom.Enemy.generateSprites(coatSprite);
-        enemies.appendChild(new L15_Doom.Enemy(new ƒ.Vector3(4, 0, -3)));
-        enemies.appendChild(new L15_Doom.Enemy(new ƒ.Vector3(-4, 0, -3)));
+        L15_Doom_UI.Enemy.generateSprites(coatSprite);
+        enemies.appendChild(new L15_Doom_UI.Enemy(new ƒ.Vector3(4, 0, -3)));
+        enemies.appendChild(new L15_Doom_UI.Enemy(new ƒ.Vector3(-4, 0, -3)));
         return enemies;
     }
     function createFloor() {
@@ -43,8 +43,8 @@ var L15_Doom;
         let txtFloor = new ƒ.TextureImage("../DoomAssets/DEM1_5.png");
         let mtrFloor = new ƒ.Material("Floor", ƒ.ShaderTexture, new ƒ.CoatTextured(clrWhite, txtFloor));
         let floor = new ƒaid.Node("Floor", ƒ.Matrix4x4.ROTATION_X(-90), mtrFloor, meshQuad);
-        floor.mtxLocal.scale(ƒ.Vector3.ONE(L15_Doom.sizeWall * L15_Doom.numWalls));
-        floor.getComponent(ƒ.ComponentMaterial).pivot.scale(ƒ.Vector2.ONE(L15_Doom.numWalls));
+        floor.mtxLocal.scale(ƒ.Vector3.ONE(L15_Doom_UI.sizeWall * L15_Doom_UI.numWalls));
+        floor.getComponent(ƒ.ComponentMaterial).pivot.scale(ƒ.Vector2.ONE(L15_Doom_UI.numWalls));
         return floor;
     }
     function hndLoop(_event) {
@@ -53,7 +53,7 @@ var L15_Doom;
             // enemy.update();
             enemy.update(avatar.mtxWorld.translation);
         }
-        L15_Doom.viewport.draw();
+        L15_Doom_UI.viewport.draw();
     }
     function hndMouseMove(_event) {
         // console.log(_event.movementX, _event.movementY);
@@ -66,14 +66,14 @@ var L15_Doom;
         // walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(sizeWall / 2), ƒ.Vector3.ZERO(), mtrWall));
         // walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(120), mtrWall));
         // walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(-120), mtrWall));
-        for (let i = -L15_Doom.numWalls / 2 + 0.5; i < L15_Doom.numWalls / 2; i++) {
-            walls.appendChild(new L15_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-L15_Doom.numWalls / 2, 0.5, i), L15_Doom.sizeWall), ƒ.Vector3.Y(90), mtrWall));
+        for (let i = -L15_Doom_UI.numWalls / 2 + 0.5; i < L15_Doom_UI.numWalls / 2; i++) {
+            walls.appendChild(new L15_Doom_UI.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-L15_Doom_UI.numWalls / 2, 0.5, i), L15_Doom_UI.sizeWall), ƒ.Vector3.Y(90), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
-            walls.appendChild(new L15_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(L15_Doom.numWalls / 2, 0.5, i), L15_Doom.sizeWall), ƒ.Vector3.Y(-90), mtrWall));
+            walls.appendChild(new L15_Doom_UI.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(L15_Doom_UI.numWalls / 2, 0.5, i), L15_Doom_UI.sizeWall), ƒ.Vector3.Y(-90), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
-            walls.appendChild(new L15_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, -L15_Doom.numWalls / 2), L15_Doom.sizeWall), ƒ.Vector3.Y(0), mtrWall));
+            walls.appendChild(new L15_Doom_UI.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, -L15_Doom_UI.numWalls / 2), L15_Doom_UI.sizeWall), ƒ.Vector3.Y(0), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
-            walls.appendChild(new L15_Doom.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, L15_Doom.numWalls / 2), L15_Doom.sizeWall), ƒ.Vector3.Y(180), mtrWall));
+            walls.appendChild(new L15_Doom_UI.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, L15_Doom_UI.numWalls / 2), L15_Doom_UI.sizeWall), ƒ.Vector3.Y(180), mtrWall));
         }
         return walls;
     }
@@ -89,7 +89,7 @@ var L15_Doom;
         }
         return bouncedOff;
     }
-    L15_Doom.bounceOffWalls = bounceOffWalls;
+    L15_Doom_UI.bounceOffWalls = bounceOffWalls;
     function calculateAngle(_vectorA, _vectorB) {
         let angle = 0;
         let dotProduct = ƒ.Vector3.DOT(_vectorA, _vectorB);
@@ -99,11 +99,11 @@ var L15_Doom;
         console.log(_vectorA);
         return angle;
     }
-    L15_Doom.calculateAngle = calculateAngle;
+    L15_Doom_UI.calculateAngle = calculateAngle;
     function calculateVectorLenght(_vector) {
         let length = _vector.x * _vector.x + _vector.y * _vector.y + _vector.z * _vector.z;
         length = Math.sqrt(length);
         return length;
     }
-})(L15_Doom || (L15_Doom = {}));
+})(L15_Doom_UI || (L15_Doom_UI = {}));
 //# sourceMappingURL=Main.js.map

@@ -1,8 +1,8 @@
 "use strict";
-var L15_Doom;
-(function (L15_Doom) {
+var L15_Doom_UI;
+(function (L15_Doom_UI) {
     var ƒ = FudgeCore;
-    class Wall extends L15_Doom.GameObject {
+    class Wall extends L15_Doom_UI.GameObject {
         constructor(_size, _position, _rotation, _material) {
             super("Wall", _position, _rotation);
             let cmpQuad = new ƒ.ComponentMesh(Wall.meshQuad);
@@ -14,6 +14,6 @@ var L15_Doom;
         }
     }
     Wall.meshQuad = new ƒ.MeshQuad();
-    L15_Doom.Wall = Wall;
-})(L15_Doom || (L15_Doom = {}));
+    L15_Doom_UI.Wall = Wall;
+})(L15_Doom_UI || (L15_Doom_UI = {}));
 //# sourceMappingURL=Wall.js.map

@@ -1,6 +1,6 @@
 "use strict";
-var L15_Doom;
-(function (L15_Doom) {
+var L15_Doom_UI;
+(function (L15_Doom_UI) {
     class Avatar extends ƒ.Node {
         constructor() {
             super("Avatar");
@@ -33,16 +33,16 @@ var L15_Doom;
             this.mtxLocal.translateZ(this.ctrForward.getOutput());
             this.mtxLocal.translateX(this.ctrSideways.getOutput());
             // this.mtxLocal.rotateY(this.ctrRotation.getOutput());
-            let bouncedOff = L15_Doom.bounceOffWalls(L15_Doom.walls.getChildren());
+            let bouncedOff = L15_Doom_UI.bounceOffWalls(L15_Doom_UI.walls.getChildren());
             if (bouncedOff.length < 2)
                 return;
-            bouncedOff = L15_Doom.bounceOffWalls(bouncedOff);
+            bouncedOff = L15_Doom_UI.bounceOffWalls(bouncedOff);
             if (bouncedOff.length == 0)
                 return;
             console.log("Stuck!");
             this.mtxLocal.translation = posOld;
         }
     }
-    L15_Doom.Avatar = Avatar;
-})(L15_Doom || (L15_Doom = {}));
+    L15_Doom_UI.Avatar = Avatar;
+})(L15_Doom_UI || (L15_Doom_UI = {}));
 //# sourceMappingURL=Avatar.js.map

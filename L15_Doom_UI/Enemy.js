@@ -1,6 +1,6 @@
 "use strict";
-var L15_Doom;
-(function (L15_Doom) {
+var L15_Doom_UI;
+(function (L15_Doom_UI) {
     var ƒ = FudgeCore;
     var ƒAid = FudgeAid;
     let ANGLE;
@@ -14,7 +14,7 @@ var L15_Doom;
         ANGLE[ANGLE["_225"] = 5] = "_225";
         ANGLE[ANGLE["_270"] = 6] = "_270";
         ANGLE[ANGLE["_315"] = 7] = "_315";
-    })(ANGLE = L15_Doom.ANGLE || (L15_Doom.ANGLE = {}));
+    })(ANGLE = L15_Doom_UI.ANGLE || (L15_Doom_UI.ANGLE = {}));
     let STATE;
     (function (STATE) {
         STATE[STATE["IDLE"] = 0] = "IDLE";
@@ -22,8 +22,8 @@ var L15_Doom;
         STATE[STATE["MOVE"] = 2] = "MOVE";
         STATE[STATE["ATTACK"] = 3] = "ATTACK";
         STATE[STATE["DIE"] = 4] = "DIE";
-    })(STATE = L15_Doom.STATE || (L15_Doom.STATE = {}));
-    class Enemy extends L15_Doom.GameObject {
+    })(STATE = L15_Doom_UI.STATE || (L15_Doom_UI.STATE = {}));
+    class Enemy extends L15_Doom_UI.GameObject {
         constructor(_position) {
             super("Enemy", _position, ƒ.Vector3.ZERO());
             this.speed = 2;
@@ -111,12 +111,12 @@ var L15_Doom;
             this.sprite.mtxLocal.rotation = ƒ.Vector3.Y(_reverse ? 180 : 0);
         }
         chooseTargetPosition() {
-            let range = L15_Doom.sizeWall * L15_Doom.numWalls / 2 - 2;
+            let range = L15_Doom_UI.sizeWall * L15_Doom_UI.numWalls / 2 - 2;
             this.posTarget = new ƒ.Vector3(ƒ.Random.default.getRange(-range, range), 0, ƒ.Random.default.getRange(-range, range));
         }
     }
     Enemy.TXT_ENEMY = new ƒ.TextureImage("../DoomAssets/Cyberdemon01.png");
     Enemy.SIZE = ƒ.Vector2.ONE(2);
-    L15_Doom.Enemy = Enemy;
-})(L15_Doom || (L15_Doom = {}));
+    L15_Doom_UI.Enemy = Enemy;
+})(L15_Doom_UI || (L15_Doom_UI = {}));
 //# sourceMappingURL=Enemy.js.map

@@ -1,6 +1,6 @@
 "use strict";
-var L15_Doom;
-(function (L15_Doom) {
+var L15_Doom_UI;
+(function (L15_Doom_UI) {
     var ƒ = FudgeCore;
     class GameObject extends ƒ.Node {
         // private static readonly meshQuad: ƒ.MeshQuad = new ƒ.MeshQuad();
@@ -30,6 +30,6 @@ var L15_Doom;
             return ƒ.Vector3.SUM(intersect, normal);
         }
     }
-    L15_Doom.GameObject = GameObject;
-})(L15_Doom || (L15_Doom = {}));
+    L15_Doom_UI.GameObject = GameObject;
+})(L15_Doom_UI || (L15_Doom_UI = {}));
 //# sourceMappingURL=GameObject.js.map

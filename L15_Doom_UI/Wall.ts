@@ -1,4 +1,4 @@
-namespace L15_Doom {
+namespace L15_Doom_UI {
   import ƒ = FudgeCore;
 
   export class Wall extends GameObject {

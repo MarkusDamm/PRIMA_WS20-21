@@ -1,4 +1,4 @@
-namespace L15_Doom {
+namespace L15_Doom_UI {
   import ƒ = FudgeCore;
   import ƒaid = FudgeAid;
 
