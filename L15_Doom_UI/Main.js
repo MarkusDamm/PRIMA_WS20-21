@@ -5,6 +5,7 @@ var L15_Doom_UI;
     var ƒaid = FudgeAid;
     window.addEventListener("load", hndLoad);
     let root = new ƒ.Node("Root");
+    let ui;
     let avatar;
     let enemies;
     L15_Doom_UI.sizeWall = 3;
@@ -12,6 +13,8 @@ var L15_Doom_UI;
     const clrWhite = ƒ.Color.CSS("white");
     async function hndLoad(_event) {
         const canvas = document.querySelector("canvas");
+        await setupUI();
+        ui = new L15_Doom_UI.UI(50, 10, 25);
         let floor = createFloor();
         root.appendChild(floor);
         L15_Doom_UI.walls = createWalls();
@@ -27,6 +30,12 @@ var L15_Doom_UI;
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
         canvas.addEventListener("mousemove", hndMouseMove);
         canvas.addEventListener("click", canvas.requestPointerLock);
+    }
+    async function setupUI() {
+        let txtFace = new ƒ.TextureImage();
+        await txtFace.load("../DoomAssets/Doom_GuyFaces.png");
+        let coatSprite = new ƒ.CoatTextured(clrWhite, txtFace);
+        L15_Doom_UI.UI.generateSprites(coatSprite);
     }
     async function createEnemies() {
         let enemies = new ƒ.Node("Enemies");
@@ -48,6 +57,7 @@ var L15_Doom_UI;
         return floor;
     }
     function hndLoop(_event) {
+        ui.update();
         avatar.update();
         for (let enemy of enemies.getChildren()) {
             // enemy.update();

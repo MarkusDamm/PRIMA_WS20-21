@@ -6,6 +6,7 @@ namespace L15_Doom_UI {
 
   export let viewport: ƒ.Viewport;
   let root: ƒ.Node = new ƒ.Node("Root");
+  let ui: UI;
   let avatar: Avatar;
   let enemies: ƒ.Node;
 
@@ -17,6 +18,9 @@ namespace L15_Doom_UI {
 
   async function hndLoad(_event: Event): Promise<void> {
     const canvas: HTMLCanvasElement = document.querySelector("canvas");
+
+    await setupUI();
+    ui = new UI(50, 10, 25);
 
     let floor: ƒaid.Node = createFloor();
     root.appendChild(floor);
@@ -39,6 +43,13 @@ namespace L15_Doom_UI {
 
     canvas.addEventListener("mousemove", hndMouseMove);
     canvas.addEventListener("click", canvas.requestPointerLock);
+  }
+
+  async function setupUI(): Promise<void> {
+    let txtFace: ƒ.TextureImage = new ƒ.TextureImage();
+    await txtFace.load("../DoomAssets/Doom_GuyFaces.png");
+    let coatSprite: ƒ.CoatTextured = new ƒ.CoatTextured(clrWhite, txtFace);
+    UI.generateSprites(coatSprite);
   }
 
   async function createEnemies(): Promise<ƒ.Node> {
@@ -67,6 +78,7 @@ namespace L15_Doom_UI {
   }
 
   function hndLoop(_event: Event): void {
+    ui.update();
     avatar.update();
     for (let enemy of enemies.getChildren() as Enemy[]) {
       // enemy.update();
