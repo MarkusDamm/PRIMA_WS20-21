@@ -3,7 +3,8 @@ namespace L15_Doom_UI {
   import ƒAid = FudgeAid;
 
   export enum FACES {
-    _IDLE = 0, _IDLE_DAMAGED1 = 1, _IDLE_DAMAGED2 = 2, _IDLE_DAMAGED3 = 3, _IDLE_DAMAGED4 = 4, _ANGRY_FRONT = 5, _ANGRY_LEFT = 6, _ANGRY_RIGHT = 7, _SURPRISED = 8, _MAD = 9, _MOREMAD = 10
+    _IDLE = 0, _IDLE_DAMAGED1 = 1, _IDLE_DAMAGED2 = 2, _IDLE_DAMAGED3 = 3, _IDLE_DAMAGED4 = 4,
+    _ANGRY_FRONT = 5, _ANGRY_LEFT = 6, _ANGRY_RIGHT = 7, _SURPRISED = 8, _MAD = 9, _MOREMAD = 10
   }
 
   export class UI {
@@ -32,7 +33,7 @@ namespace L15_Doom_UI {
       this.uiViewport.camera.pivot.translateZ(1);
       this.uiViewport.camera.pivot.rotateY(180);
 
-      this.changeFace(FACES._IDLE);
+      this.changeFace(FACES._MAD);
       // this.face.setAnimation(<ƒAid.SpriteSheetAnimation>UI.faceAnimations["Face_MOREMAD"]);
       this.faceSprite.setFrameDirection(1);
       this.faceSprite.framerate = 0.5;

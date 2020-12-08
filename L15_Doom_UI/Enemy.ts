@@ -134,9 +134,11 @@ namespace L15_Doom_UI {
       this.posTarget = new ƒ.Vector3(ƒ.Random.default.getRange(-range, range), 0, ƒ.Random.default.getRange(-range, range));
     }
 
-    // bis Dienstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
+    // bis Donnerstag: Gegner bei Sichtkontakt zum Spieler auf ihn zu bewegen
     // -> Ray zum Spieler -> wenn der Ray eine Wand zw Figur und Spieler trifft
     // UI einbinden und flexibel/ veränderbar machen
+    // Schüsse mit Raycast auf die Gegner einbinden (ähnlich zur colission)
+    // Audio einbinden
 
     // 17.12. Besprechung der Spielkonzepte
   }

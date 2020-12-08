@@ -28,7 +28,7 @@ var L15_Doom_UI;
             this.uiViewport.camera.backgroundColor = ƒ.Color.CSS("aqua");
             this.uiViewport.camera.pivot.translateZ(1);
             this.uiViewport.camera.pivot.rotateY(180);
-            this.changeFace(FACES._IDLE);
+            this.changeFace(FACES._MAD);
             // this.face.setAnimation(<ƒAid.SpriteSheetAnimation>UI.faceAnimations["Face_MOREMAD"]);
             this.faceSprite.setFrameDirection(1);
             this.faceSprite.framerate = 0.5;
