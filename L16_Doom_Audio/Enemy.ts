@@ -17,6 +17,8 @@ namespace L16_Doom_Audio {
 
     private static animations: ƒAid.SpriteSheetAnimations;
 
+    public audio: ƒ.ComponentAudio;
+
     protected show: ƒ.Node;
     protected sprite: ƒAid.NodeSprite;
     protected posTarget: ƒ.Vector3;
@@ -33,6 +35,11 @@ namespace L16_Doom_Audio {
 
       this.show = new ƒAid.Node("Show", ƒ.Matrix4x4.IDENTITY());
       this.appendChild(this.show);
+
+      this.audio = new ƒ.ComponentAudio(new ƒ.Audio("../DoomAssets/Pig_Grunt.wav"), true, true);
+      this.audio.setPanner(ƒ.AUDIO_PANNER.CONE_OUTER_ANGLE, 360);
+      this.audio.setPanner(ƒ.AUDIO_PANNER.CONE_INNER_ANGLE, 20);
+      this.addComponent(this.audio);
 
       this.sprite = new ƒAid.NodeSprite("Sprite");
       this.sprite.addComponent(new ƒ.ComponentTransform());
@@ -121,7 +128,7 @@ namespace L16_Doom_Audio {
         this.flip(false);
 
       let section: string = ANGLE[rotation]; // .padStart(3, "0");
-      console.log(section);
+      // console.log(section);
       this.sprite.setAnimation(<ƒAid.SpriteSheetAnimation>Enemy.animations["Idle" + section]);
     }
 

@@ -1,6 +1,6 @@
 "use strict";
-var L15_Doom_UI;
-(function (L15_Doom_UI) {
+var L16_Doom_Audio;
+(function (L16_Doom_Audio) {
     var ƒ = FudgeCore;
     var ƒAid = FudgeAid;
     let FACES;
@@ -16,7 +16,7 @@ var L15_Doom_UI;
         FACES[FACES["_SURPRISED"] = 8] = "_SURPRISED";
         FACES[FACES["_MAD"] = 9] = "_MAD";
         FACES[FACES["_MOREMAD"] = 10] = "_MOREMAD";
-    })(FACES = L15_Doom_UI.FACES || (L15_Doom_UI.FACES = {}));
+    })(FACES = L16_Doom_Audio.FACES || (L16_Doom_Audio.FACES = {}));
     class UI {
         constructor(_startHealth, _startAmmo, _startMaxAmmo) {
             this.uiRoot = new ƒ.Node("UIRoot");
@@ -28,7 +28,7 @@ var L15_Doom_UI;
             this.uiViewport.camera.backgroundColor = ƒ.Color.CSS("aqua");
             this.uiViewport.camera.pivot.translateZ(1);
             this.uiViewport.camera.pivot.rotateY(180);
-            this.changeFace(FACES._MAD);
+            this.changeFace(FACES._IDLE);
             // this.face.setAnimation(<ƒAid.SpriteSheetAnimation>UI.faceAnimations["Face_MOREMAD"]);
             this.faceSprite.setFrameDirection(1);
             this.faceSprite.framerate = 0.5;
@@ -60,6 +60,6 @@ var L15_Doom_UI;
             this.health = _health;
         }
     }
-    L15_Doom_UI.UI = UI;
-})(L15_Doom_UI || (L15_Doom_UI = {}));
+    L16_Doom_Audio.UI = UI;
+})(L16_Doom_Audio || (L16_Doom_Audio = {}));
 //# sourceMappingURL=UI.js.map

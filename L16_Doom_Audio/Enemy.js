@@ -1,6 +1,6 @@
 "use strict";
-var L15_Doom_UI;
-(function (L15_Doom_UI) {
+var L16_Doom_Audio;
+(function (L16_Doom_Audio) {
     var ƒ = FudgeCore;
     var ƒAid = FudgeAid;
     let ANGLE;
@@ -14,7 +14,7 @@ var L15_Doom_UI;
         ANGLE[ANGLE["_225"] = 5] = "_225";
         ANGLE[ANGLE["_270"] = 6] = "_270";
         ANGLE[ANGLE["_315"] = 7] = "_315";
-    })(ANGLE = L15_Doom_UI.ANGLE || (L15_Doom_UI.ANGLE = {}));
+    })(ANGLE = L16_Doom_Audio.ANGLE || (L16_Doom_Audio.ANGLE = {}));
     let STATE;
     (function (STATE) {
         STATE[STATE["IDLE"] = 0] = "IDLE";
@@ -22,8 +22,8 @@ var L15_Doom_UI;
         STATE[STATE["MOVE"] = 2] = "MOVE";
         STATE[STATE["ATTACK"] = 3] = "ATTACK";
         STATE[STATE["DIE"] = 4] = "DIE";
-    })(STATE = L15_Doom_UI.STATE || (L15_Doom_UI.STATE = {}));
-    class Enemy extends L15_Doom_UI.GameObject {
+    })(STATE = L16_Doom_Audio.STATE || (L16_Doom_Audio.STATE = {}));
+    class Enemy extends L16_Doom_Audio.GameObject {
         constructor(_position) {
             super("Enemy", _position, ƒ.Vector3.ZERO());
             this.speed = 2;
@@ -38,6 +38,10 @@ var L15_Doom_UI;
             };
             this.show = new ƒAid.Node("Show", ƒ.Matrix4x4.IDENTITY());
             this.appendChild(this.show);
+            this.audio = new ƒ.ComponentAudio(new ƒ.Audio("../DoomAssets/Pig_Grunt.wav"), true, true);
+            this.audio.setPanner(ƒ.AUDIO_PANNER.CONE_OUTER_ANGLE, 360);
+            this.audio.setPanner(ƒ.AUDIO_PANNER.CONE_INNER_ANGLE, 20);
+            this.addComponent(this.audio);
             this.sprite = new ƒAid.NodeSprite("Sprite");
             this.sprite.addComponent(new ƒ.ComponentTransform());
             this.show.appendChild(this.sprite);
@@ -104,19 +108,19 @@ var L15_Doom_UI;
             else
                 this.flip(false);
             let section = ANGLE[rotation]; // .padStart(3, "0");
-            console.log(section);
+            // console.log(section);
             this.sprite.setAnimation(Enemy.animations["Idle" + section]);
         }
         flip(_reverse) {
             this.sprite.mtxLocal.rotation = ƒ.Vector3.Y(_reverse ? 180 : 0);
         }
         chooseTargetPosition() {
-            let range = L15_Doom_UI.sizeWall * L15_Doom_UI.numWalls / 2 - 2;
+            let range = L16_Doom_Audio.sizeWall * L16_Doom_Audio.numWalls / 2 - 2;
             this.posTarget = new ƒ.Vector3(ƒ.Random.default.getRange(-range, range), 0, ƒ.Random.default.getRange(-range, range));
         }
     }
     Enemy.TXT_ENEMY = new ƒ.TextureImage("../DoomAssets/Cyberdemon01.png");
     Enemy.SIZE = ƒ.Vector2.ONE(2);
-    L15_Doom_UI.Enemy = Enemy;
-})(L15_Doom_UI || (L15_Doom_UI = {}));
+    L16_Doom_Audio.Enemy = Enemy;
+})(L16_Doom_Audio || (L16_Doom_Audio = {}));
 //# sourceMappingURL=Enemy.js.map

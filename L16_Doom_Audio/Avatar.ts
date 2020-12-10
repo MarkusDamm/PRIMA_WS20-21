@@ -4,13 +4,22 @@ namespace L16_Doom_Audio {
         private ctrSideways: ƒ.Control = new ƒ.Control("AvatarRotation", 0.5, ƒ.CONTROL_TYPE.PROPORTIONAL);
         private ctrForward: ƒ.Control = new ƒ.Control("AvatarSpeed", 0.5, ƒ.CONTROL_TYPE.PROPORTIONAL);
 
+        public head: ƒ.Node;
+
         public constructor() {
             super("Avatar");
+            this.head = new ƒ.Node("Head");
+            this.addChild(this.head);
+            this.head.addComponent(new ƒ.ComponentTransform());
+            this.head.mtxLocal.translateY(1.7);
+
             let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
-            cmpCamera.projectCentral(1, 45, ƒ.FIELD_OF_VIEW.DIAGONAL, 0.2, 10000);
-            cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7));
+            cmpCamera.projectCentral(1, 45, ƒ.FIELD_OF_VIEW.DIAGONAL, 0.2, 100);
             cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");
-            this.addComponent(cmpCamera);
+            this.head.addComponent(cmpCamera);
+
+            let cmpAListener: ƒ.ComponentAudioListener = new ƒ.ComponentAudioListener();
+            this.head.addComponent(cmpAListener);
 
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translateZ(15);
@@ -55,8 +64,5 @@ namespace L16_Doom_Audio {
             console.log("Stuck!");
             this.mtxLocal.translation = posOld;
         }
-        // bis Donnerstag Rotation und weiteres movement verfeinert
-        // schon an UI oder Gegner setzten?
-        // oder Waffen?
     }
 }

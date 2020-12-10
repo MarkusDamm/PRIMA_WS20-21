@@ -1,17 +1,22 @@
 "use strict";
-var L15_Doom_UI;
-(function (L15_Doom_UI) {
+var L16_Doom_Audio;
+(function (L16_Doom_Audio) {
     class Avatar extends ƒ.Node {
         constructor() {
             super("Avatar");
             // private ctrRotation: ƒ.Control = new ƒ.Control("AvatarRotation", -0.3, ƒ.CONTROL_TYPE.PROPORTIONAL);
             this.ctrSideways = new ƒ.Control("AvatarRotation", 0.5, 0 /* PROPORTIONAL */);
             this.ctrForward = new ƒ.Control("AvatarSpeed", 0.5, 0 /* PROPORTIONAL */);
+            this.head = new ƒ.Node("Head");
+            this.addChild(this.head);
+            this.head.addComponent(new ƒ.ComponentTransform());
+            this.head.mtxLocal.translateY(1.7);
             let cmpCamera = new ƒ.ComponentCamera();
-            cmpCamera.projectCentral(1, 45, ƒ.FIELD_OF_VIEW.DIAGONAL, 0.2, 10000);
-            cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7));
+            cmpCamera.projectCentral(1, 45, ƒ.FIELD_OF_VIEW.DIAGONAL, 0.2, 100);
             cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");
-            this.addComponent(cmpCamera);
+            this.head.addComponent(cmpCamera);
+            let cmpAListener = new ƒ.ComponentAudioListener();
+            this.head.addComponent(cmpAListener);
             this.addComponent(new ƒ.ComponentTransform());
             this.mtxLocal.translateZ(15);
             this.mtxLocal.rotateY(180);
@@ -33,16 +38,16 @@ var L15_Doom_UI;
             this.mtxLocal.translateZ(this.ctrForward.getOutput());
             this.mtxLocal.translateX(this.ctrSideways.getOutput());
             // this.mtxLocal.rotateY(this.ctrRotation.getOutput());
-            let bouncedOff = L15_Doom_UI.bounceOffWalls(L15_Doom_UI.walls.getChildren());
+            let bouncedOff = L16_Doom_Audio.bounceOffWalls(L16_Doom_Audio.walls.getChildren());
             if (bouncedOff.length < 2)
                 return;
-            bouncedOff = L15_Doom_UI.bounceOffWalls(bouncedOff);
+            bouncedOff = L16_Doom_Audio.bounceOffWalls(bouncedOff);
             if (bouncedOff.length == 0)
                 return;
             console.log("Stuck!");
             this.mtxLocal.translation = posOld;
         }
     }
-    L15_Doom_UI.Avatar = Avatar;
-})(L15_Doom_UI || (L15_Doom_UI = {}));
+    L16_Doom_Audio.Avatar = Avatar;
+})(L16_Doom_Audio || (L16_Doom_Audio = {}));
 //# sourceMappingURL=Avatar.js.map

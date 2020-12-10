@@ -33,7 +33,7 @@ namespace L16_Doom_Audio {
       this.uiViewport.camera.pivot.translateZ(1);
       this.uiViewport.camera.pivot.rotateY(180);
 
-      this.changeFace(FACES._MAD);
+      this.changeFace(FACES._IDLE);
       // this.face.setAnimation(<ƒAid.SpriteSheetAnimation>UI.faceAnimations["Face_MOREMAD"]);
       this.faceSprite.setFrameDirection(1);
       this.faceSprite.framerate = 0.5;

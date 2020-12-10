@@ -35,14 +35,18 @@ namespace L16_Doom_Audio {
     root.appendChild(avatar);
 
     viewport = new ƒ.Viewport();
-    viewport.initialize("Viewport", root, avatar.getComponent(ƒ.ComponentCamera), canvas);
+    viewport.initialize("Viewport", root, avatar.head.getComponent(ƒ.ComponentCamera), canvas);
     viewport.draw();
+
+    ƒ.AudioManager.default.listenTo(root);
+    ƒ.AudioManager.default.listenWith(avatar.getComponent(ƒ.ComponentAudioListener));
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, hndLoop);
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_GAME, 60);
 
     canvas.addEventListener("mousemove", hndMouseMove);
     canvas.addEventListener("click", canvas.requestPointerLock);
+    // canvas.addEventListener("click", canvas.requestPointerLock);
   }
 
   async function setupUI(): Promise<void> {
@@ -61,7 +65,7 @@ namespace L16_Doom_Audio {
     Enemy.generateSprites(coatSprite);
 
     enemies.appendChild(new Enemy(new ƒ.Vector3(4, 0, -3)));
-    enemies.appendChild(new Enemy(new ƒ.Vector3(-4, 0, -3)));
+    // enemies.appendChild(new Enemy(new ƒ.Vector3(-4, 0, -3)));
 
     return enemies;
   }
@@ -84,6 +88,7 @@ namespace L16_Doom_Audio {
       // enemy.update();
       enemy.update(avatar.mtxWorld.translation);
     }
+    ƒ.AudioManager.default.update();
     viewport.draw();
   }
 
