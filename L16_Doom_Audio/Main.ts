@@ -33,6 +33,7 @@ namespace L16_Doom_Audio {
 
     avatar = new Avatar();
     root.appendChild(avatar);
+    document.addEventListener("keydown", avatar.hdlJump);
 
     viewport = new ƒ.Viewport();
     viewport.initialize("Viewport", root, avatar.head.getComponent(ƒ.ComponentCamera), canvas);

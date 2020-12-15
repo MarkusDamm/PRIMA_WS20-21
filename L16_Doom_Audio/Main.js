@@ -23,6 +23,7 @@ var L16_Doom_Audio;
         root.appendChild(enemies);
         avatar = new L16_Doom_Audio.Avatar();
         root.appendChild(avatar);
+        document.addEventListener("keydown", avatar.hdlJump);
         L16_Doom_Audio.viewport = new ƒ.Viewport();
         L16_Doom_Audio.viewport.initialize("Viewport", root, avatar.head.getComponent(ƒ.ComponentCamera), canvas);
         L16_Doom_Audio.viewport.draw();
